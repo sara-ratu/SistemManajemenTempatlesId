@@ -49,21 +49,30 @@ Route::middleware(['auth', 'murid'])
         Route::post('/booking/{tutor}', [BookingController::class, 'store'])->name('booking.store');
 
         Route::get('/riwayat', [BookingController::class, 'riwayat'])->name('riwayat');
-});
+
+        // --- Tambahan untuk navbar ---
+        // Sementara redirect ke riwayat sampai halaman booking murid dibuat
+        Route::get('/booking', fn() => redirect()->route('murid.riwayat'))->name('booking');
+    });
 
 // ====================== TUTOR ROUTES ======================
 Route::middleware(['auth', 'tutor'])
     ->prefix('tutor')
     ->name('tutor.')
     ->group(function () {
-        Route::get('/dashboard',           [TutorController::class, 'dashboard'])->name('dashboard');
-        Route::get('/profil',              [TutorController::class, 'editProfil'])->name('profil');
-        Route::put('/profil',              [TutorController::class, 'simpanProfil'])->name('profil.simpan');
-        Route::get('/jadwal',              [TutorController::class, 'jadwal'])->name('jadwal');
-        Route::post('/jadwal',             [TutorController::class, 'simpanJadwal'])->name('jadwal.simpan');
-        Route::delete('/jadwal/{schedule}',[TutorController::class, 'hapusJadwal'])->name('jadwal.hapus');
+        Route::get('/dashboard',            [TutorController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profil',               [TutorController::class, 'editProfil'])->name('profil');
+        Route::put('/profil',               [TutorController::class, 'simpanProfil'])->name('profil.simpan');
+        Route::get('/jadwal',               [TutorController::class, 'jadwal'])->name('jadwal');
+        Route::post('/jadwal',              [TutorController::class, 'simpanJadwal'])->name('jadwal.simpan');
+        Route::delete('/jadwal/{schedule}', [TutorController::class, 'hapusJadwal'])->name('jadwal.hapus');
         Route::patch('/booking/{booking}/{aksi}', [TutorController::class, 'konfirmasiBooking'])->name('booking.aksi');
-});
+
+        // --- Tambahan untuk navbar ---
+        // Sementara redirect ke dashboard sampai halaman dibuat
+        Route::get('/booking',  fn() => redirect()->route('tutor.dashboard'))->name('booking');
+        Route::get('/laporan',  fn() => redirect()->route('tutor.dashboard'))->name('laporan');
+    });
 
 // ====================== ADMIN ROUTES ======================
 Route::middleware(['auth', 'admin'])
@@ -74,6 +83,21 @@ Route::middleware(['auth', 'admin'])
         Route::get('/tutor',                    [AdminController::class, 'daftarTutor'])->name('tutor');
         Route::patch('/tutor/{profile}/{aksi}', [AdminController::class, 'verifikasiTutor'])->name('verifikasi');
         Route::get('/matching-log',             [AdminController::class, 'matchingLog'])->name('matching-log');
-});
+
+        // --- Tambahan untuk navbar ---
+        // Semua sementara redirect ke dashboard sampai halaman masing-masing dibuat
+        Route::get('/member',   fn() => redirect()->route('admin.dashboard'))->name('member');
+        Route::get('/booking',  fn() => redirect()->route('admin.dashboard'))->name('booking');
+        Route::get('/pks',      fn() => redirect()->route('admin.dashboard'))->name('pks');
+
+        // Keuangan
+        Route::prefix('keuangan')->name('keuangan.')->group(function () {
+            Route::get('/dashboard',  fn() => redirect()->route('admin.dashboard'))->name('dashboard');
+            Route::get('/pembayaran', fn() => redirect()->route('admin.dashboard'))->name('pembayaran');
+            Route::get('/gaji-tutor', fn() => redirect()->route('admin.dashboard'))->name('gaji-tutor');
+            Route::get('/invoice',    fn() => redirect()->route('admin.dashboard'))->name('invoice');
+            Route::get('/rekap',      fn() => redirect()->route('admin.dashboard'))->name('rekap');
+        });
+    });
 
 require __DIR__.'/auth.php';
