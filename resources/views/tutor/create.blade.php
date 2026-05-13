@@ -9,7 +9,7 @@
             <!-- Header Form -->
             <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6 text-white">
                 <h5 class="text-xl font-semibold flex items-center gap-3">
-                    <i class="fas fa-user-plus"></i> 
+                    <i class="fas fa-user-plus"></i>
                     Form Pendaftaran Tutor
                 </h5>
             </div>
@@ -80,9 +80,11 @@
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Bidang Keahlian / Mata Pelajaran</label>
                             <input type="text" name="bidang_keahlian" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Upload File Silabus (PDF)</label>
+                            <input type="file" name="file_silabus" class="form-control" accept=".pdf">
+                            <small class="text-muted">Format penamaan: NamaKursus_Metode (contoh: MatematikaSD_Online)</small>
                         </div>
-
-                    </div>
 
                     <div class="pt-4">
                         <button type="submit" class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4 rounded-xl transition">
