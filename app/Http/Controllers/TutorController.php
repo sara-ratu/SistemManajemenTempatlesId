@@ -6,10 +6,56 @@ use App\Models\Subject;
 use App\Models\Schedule;
 use App\Models\TutorProfile;
 use App\Models\Booking;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
+// tambahan nabela
+use App\Models\TutorRegistration;
 
 class TutorController extends Controller
 {
+
+// nabela 
+
+public function index()
+{
+    $tutors = TutorRegistration::latest()->paginate(15);
+    return view('tutor.index', compact('tutors'));
+}
+
+public function create()
+{
+    return view('tutor.create');
+}
+
+public function store(Request $request)
+{
+    $request->validate([
+        'nama_lengkap'     => 'required',
+        'jenis_kelamin'    => 'required',
+        'tempat_lahir'     => 'required',
+        'tanggal_lahir'    => 'required|date',
+        'alamat_domisili'  => 'required',
+        'no_wa'            => 'required',
+        'email'            => 'required|email',
+        'pendidikan_terakhir' => 'required',
+        'asal_sekolah'     => 'required',
+        'bidang_keahlian'  => 'required',
+        'file_silabus'     => 'nullable|file|mimes:pdf|max:5120',
+    ]);
+
+    $data = $request->all();
+
+    if ($request->hasFile('file_silabus')) {
+        $file = $request->file('file_silabus');
+        $filename = time() . '_' . str_replace(' ', '_', $request->nama_lengkap) . '.pdf';
+        $data['file_silabus'] = $file->storeAs('silabus', $filename, 'public');
+    }
+
+    TutorRegistration::create($data);
+
+    return redirect()->route('tutor.index')
+                     ->with('success', '✅ Data tutor berhasil ditambahkan!');
+}
+
     // Dashboard tutor
     public function dashboard()
     {

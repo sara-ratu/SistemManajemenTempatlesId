@@ -9,8 +9,15 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js']) 
+
+    <style>
+        .table thead { background: #1e40af; color: white; }
+        .card { border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        .btn-primary { background: linear-gradient(45deg, #1e40af, #3b82f6); border: none; }
+    </style>
 </head>
 <body class="bg-gray-50">
 
@@ -35,7 +42,7 @@
     <footer class="bg-white border-t py-8">
         <div class="max-w-screen-2xl mx-auto px-6 text-center text-gray-500 text-sm">
             © {{ date('Y') }} Tempatles.id - Belajar Jadi Lebih Mudah
-        </div>
+        </div> 
     </footer>
 
 </body>

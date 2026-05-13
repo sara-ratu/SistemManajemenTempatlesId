@@ -73,6 +73,15 @@ Route::middleware(['auth', 'tutor'])
         Route::get('/booking',  fn() => redirect()->route('tutor.dashboard'))->name('booking');
         Route::get('/laporan',  fn() => redirect()->route('tutor.dashboard'))->name('laporan');
     });
+// nabela
+
+// === ROUTE TUTOR ===
+Route::prefix('daftar-tutor')->name('tutor.')->group(function () {
+    Route::get('/', [TutorController::class, 'index'])->name('index');
+    Route::get('/create', [TutorController::class, 'create'])->name('create');
+    Route::post('/', [TutorController::class, 'store'])->name('store');
+    Route::get('/{tutor}', [TutorController::class, 'show'])->name('show');
+});
 
 // ====================== ADMIN ROUTES ======================
 Route::middleware(['auth', 'admin'])
