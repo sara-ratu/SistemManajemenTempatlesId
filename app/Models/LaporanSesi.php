@@ -1,46 +1,22 @@
 <?php
+// ═══════════════════════════════════════════════════
+// Tambahkan ke routes/web.php
+// ═══════════════════════════════════════════════════
 
-namespace App\Models;
+use App\Http\Controllers\Tutor\LaporanSesiController;
+use App\Http\Controllers\Admin\LaporanController;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+// ── Tutor: Laporan Sesi ────────────────────────────
+Route::middleware(['auth', 'tutor'])->prefix('tutor')->name('tutor.')->group(function () {
+    Route::get('/laporan', [LaporanSesiController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/booking/{booking}', [LaporanSesiController::class, 'create'])->name('laporan.create');
+    Route::post('/laporan/booking/{booking}', [LaporanSesiController::class, 'store'])->name('laporan.store');
+    Route::get('/laporan/{laporanSesi}', [LaporanSesiController::class, 'show'])->name('laporan.show');
+});
 
-class LaporanSesi extends Model
-{
-    protected $table = 'laporan_sesi';
-
-    protected $fillable = [
-        'booking_id',
-        'tutor_id',
-        'member_id',
-        'tanggal_sesi',
-        'jam_mulai',
-        'jam_selesai',
-        'materi_diajarkan',
-        'perkembangan_siswa',
-        'catatan_tutor',
-        'foto_bukti',
-        'status',
-        'confirmed_at',
-    ];
-
-    protected $casts = [
-        'tanggal_sesi' => 'date',
-        'confirmed_at' => 'datetime',
-    ];
-
-    public function booking(): BelongsTo
-    {
-        return $this->belongsTo(Booking::class);
-    }
-
-    public function tutor(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'tutor_id');
-    }
-
-    public function member(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'member_id');
-    }
-}
+// ── Admin: Laporan Sesi ────────────────────────────
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/{laporanSesi}', [LaporanController::class, 'show'])->name('laporan.show');
+    Route::patch('/laporan/{laporanSesi}/approve', [LaporanController::class, 'approve'])->name('laporan.approve');
+});

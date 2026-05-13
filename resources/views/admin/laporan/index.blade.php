@@ -1,13 +1,24 @@
-{{-- resources/views/tutor/laporan/index.blade.php --}}
-@extends('layouts.tutor')
+{{-- resources/views/admin/laporan/index.blade.php --}}
+@extends('layouts.admin')
 
-@section('title', 'Laporan Sesi Saya')
+@section('title', 'Laporan Sesi Tutor')
 
 @section('content')
-<div class="max-w-4xl mx-auto py-8 px-4">
+<div class="max-w-6xl mx-auto py-8 px-4">
 
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Laporan Sesi</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Laporan Sesi Tutor</h1>
+        <div class="flex gap-2">
+            @foreach (['', 'submitted', 'approved', 'draft'] as $s)
+                <a href="{{ route('admin.laporan.index', $s ? ['status' => $s] : []) }}"
+                   class="text-xs px-3 py-1.5 rounded-lg border transition-colors
+                          {{ request('status') === $s || ($s === '' && !request('status'))
+                             ? 'bg-blue-600 text-white border-blue-600'
+                             : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50' }}">
+                    {{ $s ?: 'Semua' }}
+                </a>
+            @endforeach
+        </div>
     </div>
 
     @if (session('success'))
@@ -20,7 +31,8 @@
         <table class="w-full text-sm">
             <thead class="bg-gray-50 text-gray-600 text-xs uppercase">
                 <tr>
-                    <th class="px-4 py-3 text-left">Tanggal Sesi</th>
+                    <th class="px-4 py-3 text-left">Tanggal</th>
+                    <th class="px-4 py-3 text-left">Tutor</th>
                     <th class="px-4 py-3 text-left">Murid</th>
                     <th class="px-4 py-3 text-left">Materi</th>
                     <th class="px-4 py-3 text-center">Status</th>
@@ -33,12 +45,9 @@
                     <td class="px-4 py-3 text-gray-700">
                         {{ $laporan->tanggal_sesi->isoFormat('D MMM Y') }}
                     </td>
-                    <td class="px-4 py-3 text-gray-700">
-                        {{ $laporan->booking->murid->name }}
-                    </td>
-                    <td class="px-4 py-3 text-gray-600 max-w-xs truncate">
-                        {{ $laporan->materi_diajarkan }}
-                    </td>
+                    <td class="px-4 py-3 font-medium text-gray-800">{{ $laporan->tutor->name }}</td>
+                    <td class="px-4 py-3 text-gray-600">{{ $laporan->booking->murid->name }}</td>
+                    <td class="px-4 py-3 text-gray-600 max-w-xs truncate">{{ $laporan->materi_diajarkan }}</td>
                     <td class="px-4 py-3 text-center">
                         @if ($laporan->status_laporan === 'approved')
                             <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">Disetujui</span>
@@ -49,17 +58,19 @@
                         @endif
                     </td>
                     <td class="px-4 py-3 text-center">
-                        <a href="{{ route('tutor.laporan.create', $laporan->booking_id) }}"
-                           class="text-blue-600 hover:underline text-xs">
-                            {{ $laporan->isApproved() ? 'Lihat' : 'Edit' }}
-                        </a>
+                        <a href="{{ route('admin.laporan.show', $laporan) }}"
+                           class="text-blue-600 hover:underline text-xs mr-2">Detail</a>
+                        @if ($laporan->status_laporan === 'submitted')
+                            <form action="{{ route('admin.laporan.approve', $laporan) }}" method="POST" class="inline">
+                                @csrf @method('PATCH')
+                                <button class="text-green-600 hover:underline text-xs">Setujui</button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="px-4 py-8 text-center text-gray-400">
-                        Belum ada laporan sesi.
-                    </td>
+                    <td colspan="6" class="px-4 py-8 text-center text-gray-400">Belum ada laporan.</td>
                 </tr>
                 @endforelse
             </tbody>
