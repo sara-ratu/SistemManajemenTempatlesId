@@ -22,7 +22,6 @@
         </a>
     </div>
 
-    <!-- Search -->
     <div class="mb-6 max-w-md">
         <div class="relative">
             <input type="text" id="searchInput" 
@@ -32,7 +31,6 @@
         </div>
     </div>
 
-    <!-- Tabel Lengkap -->
     <div class="bg-white rounded-2xl shadow overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full" id="tutorTable">
@@ -66,7 +64,7 @@
                         <td class="px-6 py-4 font-medium">{{ $t->nama_lengkap }}</td>
                         <td class="px-6 py-4">{{ $t->jenis_kelamin }}</td>
                         <td class="px-6 py-4">{{ $t->tempat_lahir }}, {{ $t->tanggal_lahir?->format('d M Y') }}</td>
-                        <td class="px-6 py-4">{{ Str::limit($t->alamat_domisili, 60) }}</td>
+                        <td class="px-6 py-4">{{ Str::limit($t->alamat_domisili, 50) }}</td>
                         <td class="px-6 py-4">{{ $t->no_wa }}</td>
                         <td class="px-6 py-4">{{ $t->email }}</td>
                         <td class="px-6 py-4">{{ $t->pendidikan_terakhir ?? '-' }}</td>
@@ -89,8 +87,8 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <a href="{{ route('tutor.show', $t) }}" class="text-blue-600 hover:text-blue-700 font-medium">
-                                Detail
+                            <a href="{{ route('tutor.show', $t) }}" class="text-blue-600 hover:text-blue-700">
+                                <i class="fas fa-eye"></i> Detail
                             </a>
                         </td>
                     </tr>

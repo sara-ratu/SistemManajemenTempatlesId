@@ -22,6 +22,16 @@
                     </div>
                 @endif
 
+                @if ($errors->any())
+                    <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-5 py-4 rounded-xl">
+                        <ul class="list-disc pl-5">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form action="{{ route('tutor.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                     @csrf
 
@@ -29,13 +39,13 @@
 
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
-                            <input type="text" name="nama_lengkap" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200" required>
+                            <input type="text" name="nama_lengkap" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Kelamin</label>
                             <select name="jenis_kelamin" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
-                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="">Pilih</option>
                                 <option value="Laki-laki">Laki-laki</option>
                                 <option value="Perempuan">Perempuan</option>
                             </select>
@@ -82,7 +92,7 @@
                         </div>
 
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Pengalaman Mengajar</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Jelaskan Pengalaman Mengajar Anda</label>
                             <textarea name="pengalaman_mengajar" rows="4" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"></textarea>
                         </div>
 
@@ -125,7 +135,7 @@
                     </div>
 
                     <div class="pt-8">
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-medium py-4 rounded-2xl text-lg">
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 rounded-2xl text-lg transition">
                             <i class="fas fa-save"></i> Simpan Data Tutor
                         </button>
                     </div>
