@@ -171,9 +171,6 @@
 
     <div class="mt-4">{{ $laporans->links() }}</div>
 </div>
-<<<<<<< Updated upstream
-@endsection
-=======
 
 </x-app-layout>
 
@@ -189,4 +186,3 @@
     });
 </script>
 @endpush
->>>>>>> Stashed changes
