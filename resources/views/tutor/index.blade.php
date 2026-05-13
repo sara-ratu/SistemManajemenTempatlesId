@@ -1,79 +1,99 @@
-@extends('layouts.tutor')
+<x-app-layout>
+    <x-slot name="header">
+        <h4 class="mb-0 font-semibold">Tambah Data Tutor Baru</h4>
+    </x-slot>
 
-@section('title', 'Laporan Sesi Saya')
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
 
-@section('content')
-<div class="max-w-4xl mx-auto py-8 px-4">
+            <!-- Header Form -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6 text-white">
+                <h5 class="text-xl font-semibold flex items-center gap-3">
+                    <i class="fas fa-user-plus"></i>
+                    Form Pendaftaran Tutor
+                </h5>
+            </div>
 
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Laporan Sesi</h1>
-    </div>
+            <div class="p-8">
 
-    {{-- Alert Success --}}
-    @if (session('success'))
-        <div class="bg-green-50 border border-green-200 text-green-700 rounded-lg px-4 py-3 mb-6 text-sm">
-            {{ session('success') }}
+                @if(session('success'))
+                    <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-5 py-3 rounded-xl">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <form action="{{ route('tutor.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    @csrf
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                            <input type="text" name="nama_lengkap" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
+                            <select name="jenis_kelamin" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
+                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tempat Lahir</label>
+                            <input type="text" name="tempat_lahir" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
+                            <input type="date" name="tanggal_lahir" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Domisili</label>
+                            <textarea name="alamat_domisili" rows="3" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">No. WA Aktif</label>
+                            <input type="text" name="no_wa" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Aktif</label>
+                            <input type="email" name="email" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
+                        </div>
+
+                        <!-- Kolom lainnya -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Pendidikan Terakhir</label>
+                            <input type="text" name="pendidikan_terakhir" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Asal Sekolah / Kampus</label>
+                            <input type="text" name="asal_sekolah" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Bidang Keahlian / Mata Pelajaran</label>
+                            <input type="text" name="bidang_keahlian" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500" required>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Upload File Silabus (PDF)</label>
+                            <input type="file" name="file_silabus" class="form-control" accept=".pdf">
+                            <small class="text-muted">Format penamaan: NamaKursus_Metode (contoh: MatematikaSD_Online)</small>
+                        </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4 rounded-xl transition">
+                            <i class="fas fa-save"></i> Simpan Data Tutor
+                        </button>
+                    </div>
+
+                </form>
+            </div>
         </div>
-    @endif
-
-    <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-        <table class="w-full text-sm">
-            <thead class="bg-gray-50 text-gray-600 text-xs uppercase">
-                <tr>
-                    <th class="px-4 py-3 text-left">Tanggal Sesi</th>
-                    <th class="px-4 py-3 text-left">Murid</th>
-                    <th class="px-4 py-3 text-left">Materi</th>
-                    <th class="px-4 py-3 text-center">Status</th>
-                    <th class="px-4 py-3 text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-                @forelse ($laporans as $laporan)
-                <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 text-gray-700">
-                        {{ $laporan->tanggal_sesi->isoFormat('D MMM Y') }}
-                    </td>
-                    <td class="px-4 py-3 text-gray-700">
-                        {{ $laporan->booking->murid->name ?? '-' }}
-                    </td>
-                    <td class="px-4 py-3 text-gray-600 max-w-xs truncate">
-                        {{ $laporan->materi_diajarkan ?? '-' }}
-                    </td>
-                    <td class="px-4 py-3 text-center">
-                        @if ($laporan->status_laporan === 'approved')
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">Disetujui</span>
-                        @elseif ($laporan->status_laporan === 'submitted')
-                            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">Menunggu</span>
-                        @else
-                            <span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded-full font-medium">Draft</span>
-                        @endif
-                    </td>
-                    <td class="px-4 py-3 text-center">
-                        <a href="{{ route('tutor.laporan.create', $laporan->booking_id) }}"
-                           class="text-blue-600 hover:underline text-xs">
-                            {{ $laporan->isApproved() ? 'Lihat' : 'Edit' }}
-                        </a>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="px-4 py-8 text-center text-gray-400">
-                        Belum ada laporan sesi.
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
     </div>
-
-    <div class="mt-4">
-        {{ $laporans->links() }}
-    </div>
-</div>
-@endsection
-
-@push('scripts')
-<script>
-    // Kosongkan dulu kalau tidak butuh search di halaman ini
-</script>
-@endpush
+</x-app-layout>
