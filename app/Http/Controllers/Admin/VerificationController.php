@@ -3,182 +3,179 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\MemberRequest;
 use App\Models\TutorProfile;
+use App\Notifications\TutorVerifiedNotification;
+use App\Notifications\TutorRejectedNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class VerificationController extends Controller
 {
-    // ─── TUTOR ───────────────────────────────────────────────────────────
-
-    public function index()
+    public function index(Request $request)
     {
-        $pendingTutors = TutorProfile::with('user')
-            ->where('status_verifikasi', 'pending')
+        $tab = $request->get('tab', 'tutor');
+
+        $tutorsPending = TutorProfile::with('user')
+            ->where('is_verified', false)
+            ->whereNotNull('ktp_path')
             ->latest()
             ->paginate(10, ['*'], 'tutor_page');
 
-        $pendingMembers = User::where('role', 'murid')
-            ->where('is_verified', false)
+        $membersPending = MemberRequest::with('user')
+            ->where('status', 'pending')
             ->latest()
             ->paginate(10, ['*'], 'member_page');
 
-        return view('admin.verification.index', compact('pendingTutors', 'pendingMembers'));
+        $stats = [
+            'tutor_pending'   => TutorProfile::where('is_verified', false)->whereNotNull('ktp_path')->count(),
+            'tutor_verified'  => TutorProfile::where('is_verified', true)->count(),
+            'member_pending'  => MemberRequest::where('status', 'pending')->count(),
+            'member_approved' => MemberRequest::where('status', 'approved')->count(),
+        ];
+
+        return view('admin.verification.index', compact(
+            'tutorsPending',
+            'membersPending',
+            'stats',
+            'tab'
+        ));
     }
 
-    public function tutorDetail($id)
+    public function showTutor(TutorProfile $tutorProfile)
     {
-        $tutor = TutorProfile::with(['user', 'subjects', 'areas', 'schedules'])
-            ->findOrFail($id);
+        $tutorProfile->load('user', 'tutorSubjects.subject', 'tutorAreas');
 
-        return view('admin.verification.tutor-detail', compact('tutor'));
+        return view('admin.verification.tutor-detail', compact('tutorProfile'));
     }
 
-    public function approveTutor(Request $request, $id)
+    public function approveTutor(Request $request, TutorProfile $tutorProfile)
     {
-        $request->validate([
-            'catatan' => 'nullable|string|max:500',
-        ]);
-
-        $profile = TutorProfile::with('user')->findOrFail($id);
-
-        $profile->update([
-            'status_verifikasi'  => 'verified',
-            'verified_at'        => now(),
-            'verified_by'        => auth()->id(),
-            'catatan_verifikasi' => $request->catatan,
-        ]);
-
-        $profile->user->update([
-            'is_verified' => true,
-            'verified_at' => now(),
-        ]);
-
-        $this->kirimWA(
-            $profile->no_wa ?? $profile->user->no_hp,
-            $this->pesanApprove($profile->user->name, $request->catatan)
-        );
-
-        return redirect()->route('admin.verification.index')
-            ->with('success', 'Tutor ' . $profile->user->name . ' berhasil diverifikasi.');
-    }
-
-    public function rejectTutor(Request $request, $id)
-    {
-        $request->validate([
-            'alasan' => 'required|string|max:500',
-        ]);
-
-        $profile = TutorProfile::with('user')->findOrFail($id);
-
-        $profile->update([
-            'status_verifikasi' => 'rejected',
-            'rejection_reason'  => $request->alasan,
-            'verified_by'       => auth()->id(),
-            'verified_at'       => null,
-        ]);
-
-        $this->kirimWA(
-            $profile->no_wa ?? $profile->user->no_hp,
-            $this->pesanReject($profile->user->name, $request->alasan)
-        );
-
-        return redirect()->route('admin.verification.index')
-            ->with('success', 'Tutor ' . $profile->user->name . ' telah ditolak.');
-    }
-
-    // ─── MEMBER ──────────────────────────────────────────────────────────
-
-    public function approveMember($id)
-    {
-        $user = User::findOrFail($id);
-
-        $user->update([
-            'is_verified' => true,
-            'verified_at' => now(),
-        ]);
-
-        return back()->with('success', 'Member ' . $user->name . ' berhasil diverifikasi.');
-    }
-
-    public function rejectMember(Request $request, $id)
-    {
-        $request->validate([
-            'alasan' => 'required|string|max:500',
-        ]);
-
-        $user = User::findOrFail($id);
-
-        return back()->with('info', 'Member ' . $user->name . ' ditolak: ' . $request->alasan);
-    }
-
-    // ─── WHATSAPP CLOUD API (Meta) ────────────────────────────────────────
-
-    /**
-     * Kirim pesan teks via Meta WhatsApp Cloud API
-     * Docs: https://developers.facebook.com/docs/whatsapp/cloud-api/messages/text-messages
-     */
-    private function kirimWA(?string $nomorWA, string $pesan): void
-    {
-        $token   = config('services.whatsapp.token');
-        $phoneId = config('services.whatsapp.phone_number_id');
-
-        if (! $nomorWA || ! $token || ! $phoneId) {
-            Log::warning('WhatsApp Cloud API: konfigurasi belum lengkap atau nomor kosong.');
-            return;
-        }
-
-        // Normalisasi: 08xxx → 628xxx, hapus non-digit
-        $nomor = preg_replace('/^0/', '62', preg_replace('/\D/', '', $nomorWA));
+        DB::beginTransaction();
 
         try {
-            $response = Http::withToken($token)
-                ->post("https://graph.facebook.com/v19.0/{$phoneId}/messages", [
-                    'messaging_product' => 'whatsapp',
-                    'recipient_type'    => 'individual',
-                    'to'                => $nomor,
-                    'type'              => 'text',
-                    'text'              => [
-                        'preview_url' => false,
-                        'body'        => $pesan,
-                    ],
-                ]);
+            $tutorProfile->update([
+                'is_verified'       => true,
+                'verification_note' => $request->catatan ?? 'Dokumen lengkap dan valid.',
+                'verified_at'       => now(),
+            ]);
 
-            if (! $response->successful()) {
-                Log::warning('WhatsApp Cloud API gagal: ' . $response->body());
+            $tutorProfile->user->update([
+                'role' => 'tutor'
+            ]);
+
+            try {
+                $tutorProfile->user->notify(
+                    new TutorVerifiedNotification($tutorProfile)
+                );
+            } catch (\Exception $e) {
+                Log::warning('Notif approve gagal: ' . $e->getMessage());
             }
-        } catch (\Throwable $e) {
-            Log::warning('WhatsApp Cloud API exception: ' . $e->getMessage());
+
+            DB::commit();
+
+            return redirect()
+                ->route('admin.verification.index')
+                ->with('success', 'Tutor berhasil diverifikasi!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Approve tutor error: ' . $e->getMessage());
+
+            return back()->with('error', 'Gagal verifikasi tutor.');
         }
     }
 
-    private function pesanApprove(string $nama, ?string $catatan): string
+    public function rejectTutor(Request $request, TutorProfile $tutorProfile)
     {
-        $pesan  = "Halo *{$nama}*,\n\n";
-        $pesan .= "✅ *Profil Anda telah DIVERIFIKASI* oleh tim Tempatles.\n\n";
-        $pesan .= "Selamat! Profil Anda kini sudah tayang dan dapat ditemukan oleh calon murid.\n";
+        $request->validate([
+            'alasan_tolak' => 'required|string|min:10',
+        ]);
 
-        if ($catatan) {
-            $pesan .= "\n📝 *Catatan dari admin:*\n{$catatan}\n";
+        DB::beginTransaction();
+
+        try {
+            $tutorProfile->update([
+                'is_verified'       => false,
+                'verification_note' => $request->alasan_tolak,
+                'verified_at'       => null,
+            ]);
+
+            try {
+                $tutorProfile->user->notify(
+                    new TutorRejectedNotification($tutorProfile, $request->alasan_tolak)
+                );
+            } catch (\Exception $e) {
+                Log::warning('Notif reject gagal: ' . $e->getMessage());
+            }
+
+            DB::commit();
+
+            return redirect()
+                ->route('admin.verification.index')
+                ->with('warning', 'Tutor ditolak.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Reject tutor error: ' . $e->getMessage());
+
+            return back()->with('error', 'Gagal menolak tutor.');
         }
-
-        $pesan .= "\nSilakan login ke aplikasi untuk mulai menerima booking.\n";
-        $pesan .= "— Tim Tempatles 🎓";
-
-        return $pesan;
     }
 
-    private function pesanReject(string $nama, string $alasan): string
+    public function approveMember(MemberRequest $memberRequest)
     {
-        $pesan  = "Halo *{$nama}*,\n\n";
-        $pesan .= "❌ *Pengajuan verifikasi Anda BELUM DISETUJUI.*\n\n";
-        $pesan .= "📋 *Alasan:*\n{$alasan}\n\n";
-        $pesan .= "Silakan perbaiki data Anda dan ajukan ulang melalui aplikasi.\n";
-        $pesan .= "Jika ada pertanyaan, balas pesan ini.\n\n";
-        $pesan .= "— Tim Tempatles 🎓";
+        DB::beginTransaction();
 
-        return $pesan;
+        try {
+            $memberRequest->update([
+                'status' => 'approved'
+            ]);
+
+            $memberRequest->user->update([
+                'role' => 'murid'
+            ]);
+
+            DB::commit();
+
+            return redirect()
+                ->route('admin.verification.index', ['tab' => 'member'])
+                ->with('success', 'Member disetujui!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Approve member error: ' . $e->getMessage());
+
+            return back()->with('error', 'Gagal approve member.');
+        }
+    }
+
+    public function rejectMember(Request $request, MemberRequest $memberRequest)
+    {
+        $request->validate([
+            'alasan_tolak' => 'required|string|min:5',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $memberRequest->update([
+                'status' => 'rejected',
+                'catatan_admin' => $request->alasan_tolak,
+            ]);
+
+            DB::commit();
+
+            return redirect()
+                ->route('admin.verification.index', ['tab' => 'member'])
+                ->with('warning', 'Member ditolak.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Reject member error: ' . $e->getMessage());
+
+            return back()->with('error', 'Gagal menolak member.');
+        }
     }
 }

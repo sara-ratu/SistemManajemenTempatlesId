@@ -12,10 +12,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('chat_room_id')->constrained('chat_rooms')->cascadeOnDelete();
             $table->foreignId('sender_id')->constrained('users')->cascadeOnDelete();
-            $table->enum('tipe', ['text', 'file', 'image'])->default('text');
-            $table->text('isi')->nullable()->comment('Isi pesan teks');
+
+            $table->enum('type', ['text', 'file', 'image'])->default('text');
+            $table->text('message')->nullable()->comment('Isi pesan teks');
+
             $table->string('file_path', 255)->nullable()->comment('Path file/gambar yang dikirim');
             $table->string('file_name', 255)->nullable();
+
             $table->boolean('is_read')->default(false);
             $table->timestamp('read_at')->nullable();
             $table->timestamps();

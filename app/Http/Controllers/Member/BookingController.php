@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\TutorProfile;
 use App\Models\TutorSchedule;
 use App\Models\User;
+use App\Notifications\BookingNotification; // ← TAMBAH INI
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,7 +63,8 @@ class BookingController extends Controller
             return back()->with('error', 'Jadwal tersebut sudah dipesan. Pilih waktu lain.')->withInput();
         }
 
-        Booking::create([
+        // ← UBAH: simpan ke $booking (bukan langsung create tanpa variable)
+        $booking = Booking::create([
             'murid_id'   => Auth::id(),
             'tutor_id'   => $tutor->id,
             'subject_id' => $request->subject_id,
@@ -73,6 +75,10 @@ class BookingController extends Controller
             'status'     => 'pending',
             'catatan'    => $request->catatan,
         ]);
+
+        // ← TAMBAH: kirim notifikasi ke tutor dan murid
+        $tutor->notify(new BookingNotification($booking, 'tutor'));
+        Auth::user()->notify(new BookingNotification($booking, 'murid'));
 
         return redirect()->route('murid.riwayat')
             ->with('success', 'Booking berhasil dikirim! Tunggu konfirmasi dari tutor.');

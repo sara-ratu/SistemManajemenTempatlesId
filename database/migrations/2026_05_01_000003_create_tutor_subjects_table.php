@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('tutor_subjects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tutor_profile_id')->constrained()->onDelete('cascade');
-            $table->foreignId('subject_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('subject_id');
+            $table->foreign('subject_id')
+                ->references('id')
+                ->on('subjects')
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

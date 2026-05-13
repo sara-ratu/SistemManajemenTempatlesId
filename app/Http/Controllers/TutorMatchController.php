@@ -12,7 +12,6 @@ class TutorMatchController extends Controller
         protected TutorMatchService $matchService
     ) {}
 
-    // Halaman form pencarian
     public function index()
     {
         $subjects = Subject::where('is_active', true)
@@ -22,25 +21,24 @@ class TutorMatchController extends Controller
         return view('murid.cari-tutor', compact('subjects'));
     }
 
-    // Proses matching dan tampilkan hasil
     public function search(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'subject_id' => 'nullable|exists:subjects,id',
             'budget'     => 'nullable|integer|min:0',
             'hari'       => 'nullable|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'jam'        => 'nullable|date_format:H:i',
+            'sesi'       => 'nullable|in:Pagi,Siang,Sore',
+            'metode'     => 'nullable|in:online,offline,keduanya',
+            'jenjang'    => 'nullable|in:SD,SMP,SMA,Kuliah',
             'latitude'   => 'nullable|numeric',
             'longitude'  => 'nullable|numeric',
-        ]);
-
-        $kriteria = $request->only([
-            'subject_id', 'budget', 'hari',
-            'jam', 'latitude', 'longitude',
+            'kecamatan'  => 'nullable|string|max:100',
+            'kota'       => 'nullable|string|max:100',
         ]);
 
         $hasil = $this->matchService->match(
-            $kriteria,
+            $validated,
             auth()->id()
         );
 
@@ -48,6 +46,10 @@ class TutorMatchController extends Controller
             ->orderBy('nama_mapel')
             ->get();
 
-        return view('murid.cari-tutor', compact('hasil', 'subjects', 'kriteria'));
+        return view('murid.cari-tutor', [
+            'hasil'    => $hasil,
+            'subjects' => $subjects,
+            'kriteria' => $validated,
+        ]);
     }
 }

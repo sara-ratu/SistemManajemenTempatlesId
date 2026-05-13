@@ -10,18 +10,35 @@ return new class extends Migration
     {
         Schema::create('tutor_areas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tutor_id')->constrained('users')->cascadeOnDelete();
+
+            $table->foreignId('tutor_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
             $table->string('provinsi', 100)->nullable();
+
             $table->string('kota_kabupaten', 100);
+
             $table->string('kecamatan', 100)->nullable();
+
             $table->string('kelurahan', 100)->nullable();
-            $table->decimal('radius_km', 5, 2)->default(5.00)->comment('Jarak maksimal tutor bersedia datang (km)');
+
+            $table->decimal('radius_km', 5, 2)
+                ->default(5.00)
+                ->comment('Jarak maksimal tutor bersedia datang (km)');
+
             $table->decimal('latitude', 10, 7)->nullable();
+
             $table->decimal('longitude', 10, 7)->nullable();
-            $table->boolean('is_primary')->default(false)->comment('Area utama tutor');
+
+            $table->boolean('is_primary')
+                ->default(false)
+                ->comment('Area utama tutor');
+
             $table->timestamps();
 
             $table->index(['kota_kabupaten', 'kecamatan']);
+            $table->index(['tutor_id']);
         });
     }
 

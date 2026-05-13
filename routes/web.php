@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TutorMatchController;
 use App\Http\Controllers\TutorController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BookingController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Member\BookingController;
 use App\Http\Controllers\MuridDashboardController;
 use App\Http\Controllers\Tutor\LaporanSesiController;
 use App\Http\Controllers\Admin\LaporanController;

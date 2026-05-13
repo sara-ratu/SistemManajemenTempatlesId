@@ -94,4 +94,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(MatchingLog::class, 'murid_id');
     }
+
+    public function routeNotificationForFonnte(): ?string
+    {
+    $noHp = $this->no_hp ?? null;
+    if (! $noHp) return null;
+
+    if (str_starts_with($noHp, '0')) {
+        $noHp = '62' . substr($noHp, 1);
+    }
+    return $noHp;
+    }
 }
