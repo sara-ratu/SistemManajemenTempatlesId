@@ -4,97 +4,85 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HonorTutor;
+use App\Http\Requests\Admin\HonorTransferRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class HonorController extends Controller
 {
     /**
-     * Daftar honor tutor (antrean transfer)
+     * Display a listing of honor tutors.
      */
     public function index(Request $request)
     {
         $status = $request->get('status', 'pending');
 
-        $honors = HonorTutor::with(['tutor', 'booking', 'pembayaran'])
-            ->when($status !== 'all', fn($q) => $q->where('status', $status))
-            ->latest()
-            ->paginate(20);
+        $query = HonorTutor::with(['tutor'])
+            ->latest();
 
+        // Filter berdasarkan status
+        if ($status === 'pending') {
+            $query->where('status', 'pending');
+        } elseif ($status === 'ditransfer') {
+            $query->where('status', 'ditransfer');
+        }
+        // 'all' = tampilkan semua
+
+        $honors = $query->paginate(15)->withQueryString();
+
+        // Summary untuk cards
         $summary = [
-            'pending'    => HonorTutor::pending()->count(),
-            'ditransfer' => HonorTutor::ditransfer()->count(),
-            'total'      => HonorTutor::pending()->sum('jumlah_honor'),
+            'pending'    => HonorTutor::where('status', 'pending')->count(),
+            'ditransfer' => HonorTutor::where('status', 'ditransfer')->count(),
+            'total'      => HonorTutor::where('status', 'pending')->sum('jumlah_honor'),
         ];
 
         return view('admin.honor.index', compact('honors', 'status', 'summary'));
     }
 
     /**
-     * Rekap honor per tutor
+     * Proses transfer honor ke tutor
      */
-    public function rekap(Request $request)
+    public function transfer(HonorTransferRequest $request, HonorTutor $honor)
     {
-        $honors = HonorTutor::with('tutor')
-            ->selectRaw('tutor_id, SUM(jumlah_honor) as total, COUNT(*) as jumlah_sesi, status')
-            ->groupBy('tutor_id', 'status')
-            ->get()
-            ->groupBy('tutor_id');
+        // Cek agar tidak double transfer
+        if ($honor->status === 'ditransfer') {
+            return redirect()
+                ->route('admin.honor.index')
+                ->with('error', 'Honor ini sudah ditransfer sebelumnya.');
+        }
 
-        return view('admin.honor.rekap', compact('honors'));
-    }
+        DB::beginTransaction();
 
-    /**
-     * Tandai honor sudah ditransfer + upload bukti
-     */
-    public function transfer(Request $request, HonorTutor $honor)
-    {
-        $request->validate([
-            'bukti_transfer' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'catatan'        => 'nullable|string|max:500',
-        ]);
+        try {
+            $filePath = $request->file('bukti_transfer')
+                               ->store('bukti_transfer/honor', 'public');
 
-        abort_if($honor->status !== 'pending', 403, 'Honor sudah ditransfer sebelumnya.');
-
-        $path = $request->file('bukti_transfer')
-            ->store('honor/bukti', 'public');
-
-        $honor->update([
-            'status'         => 'ditransfer',
-            'bukti_transfer' => $path,
-            'ditransfer_at'  => now(),
-            'ditransfer_by'  => auth()->id(),
-            'catatan'        => $request->catatan,
-        ]);
-
-        return redirect()->route('admin.honor.index')
-            ->with('success', 'Honor tutor berhasil ditandai sudah ditransfer.');
-    }
-
-    /**
-     * Transfer massal (bulk) — tandai semua pending sebagai ditransfer
-     */
-    public function bulkTransfer(Request $request)
-    {
-        $request->validate([
-            'honor_ids'      => 'required|array',
-            'honor_ids.*'    => 'exists:honor_tutors,id',
-            'bukti_transfer' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
-        ]);
-
-        $path = $request->file('bukti_transfer')
-            ->store('honor/bukti-bulk', 'public');
-
-        HonorTutor::whereIn('id', $request->honor_ids)
-            ->where('status', 'pending')
-            ->update([
-                'status'         => 'ditransfer',
-                'bukti_transfer' => $path,
-                'ditransfer_at'  => now(),
-                'ditransfer_by'  => auth()->id(),
+            $honor->update([
+                'status'           => 'ditransfer',
+                'bukti_transfer'   => $filePath,
+                'catatan'          => $request->catatan,
+                'tanggal_transfer' => now(),
+                'transfer_by'      => auth()->id(),
             ]);
 
-        return redirect()->route('admin.honor.index')
-            ->with('success', count($request->honor_ids) . ' honor berhasil ditandai ditransfer.');
+            DB::commit();
+
+            return redirect()
+                ->route('admin.honor.index')
+                ->with('success', "Honor untuk {$honor->tutor->name} berhasil ditransfer.");
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()
+                ->back()
+                ->with('error', 'Terjadi kesalahan saat memproses transfer. Silakan coba lagi.');
+        }
     }
+
+    // Method tambahan yang mungkin dibutuhkan di masa depan
+    // public function dashboard() { ... }
+    // public function gajiTutor() { ... }
+    // public function rekap() { ... }
 }

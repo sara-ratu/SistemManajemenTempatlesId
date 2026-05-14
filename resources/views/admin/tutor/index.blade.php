@@ -11,12 +11,12 @@
     <div class="flex justify-between items-center mb-6">
         <div>
             <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
-                <i class="fas fa-chalkboard-teacher"></i> 
+                <i class="fas fa-chalkboard-teacher"></i>
                 Daftar Pendaftar Tutor
             </h2>
             <p class="text-gray-600">Manajemen Data Tutor TempatLes.id</p>
         </div>
-        <a href="{{ route('tutor.create') }}" 
+        <a href="{{ route('tutor.create') }}"
            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium flex items-center gap-2">
             <i class="fas fa-plus"></i> Tambah Tutor Baru
         </a>
@@ -24,7 +24,7 @@
 
     <div class="mb-6 max-w-md">
         <div class="relative">
-            <input type="text" id="searchInput" 
+            <input type="text" id="searchInput"
                    class="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-500"
                    placeholder="Cari nama tutor...">
             <i class="fas fa-search absolute left-4 top-4 text-gray-400"></i>

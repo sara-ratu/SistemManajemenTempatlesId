@@ -4,35 +4,29 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    public function up(): void
+return new class extends Migration {
+    public function up()
     {
-        Schema::create('honor_tutor', function (Blueprint $table) {
+        Schema::create('honor_tutors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tutor_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('pembayaran_id')->constrained('pembayaran')->restrictOnDelete();
-            $table->foreignId('booking_id')->constrained('bookings')->cascadeOnDelete();
-            $table->unsignedInteger('total_pembayaran')->comment('Total yang dibayar member');
-            $table->unsignedTinyInteger('komisi_persen');
-            $table->unsignedInteger('komisi_nominal');
-            $table->unsignedInteger('honor_bersih')->comment('Yang diterima tutor = total - komisi');
-            $table->enum('status', ['pending', 'approved', 'transferred', 'cancelled'])->default('pending');
-            $table->timestamp('approved_at')->nullable();
-            $table->timestamp('transferred_at')->nullable();
-            $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
-            $table->string('bukti_transfer', 255)->nullable();
-            $table->string('rekening_tujuan', 100)->nullable();
-            $table->string('atas_nama', 100)->nullable();
+            $table->foreignId('tutor_id')->constrained('users')->onDelete('cascade');
+            $table->decimal('jumlah_bruto', 15, 2);
+            $table->integer('komisi_platform')->default(0);
+            $table->decimal('jumlah_honor', 15, 2);
+            $table->string('rekening_bank')->nullable();
+            $table->string('no_rekening')->nullable();
+            $table->string('nama_rekening')->nullable();
+            $table->enum('status', ['pending', 'ditransfer'])->default('pending');
+            $table->string('bukti_transfer')->nullable();
             $table->text('catatan')->nullable();
+            $table->timestamp('tanggal_transfer')->nullable();
+            $table->foreignId('transfer_by')->nullable()->constrained('users');
             $table->timestamps();
-
-            $table->index(['tutor_id', 'status']);
         });
     }
 
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('honor_tutor');
+        Schema::dropIfExists('honor_tutors');
     }
 };
