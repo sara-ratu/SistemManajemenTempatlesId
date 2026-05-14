@@ -23,7 +23,7 @@ class TutorMatchService
     const SESI_SIANG  = ['mulai' => '12:00', 'selesai' => '15:59'];
     const SESI_SORE   = ['mulai' => '16:00', 'selesai' => '20:00'];
 
-    public function match(array $kriteria, int $murid_id): array
+    public function match(array $kriteria, int $Member_id): array
     {
         // Ambil semua tutor yang sudah verified dan aktif
         // Sertakan relasi TutorArea untuk filter lokasi offline
@@ -88,7 +88,7 @@ class TutorMatchService
 
             // ── Simpan ke matching_logs ──────────────────────────────────────
             MatchingLog::create([
-                'murid_id'       => $murid_id,
+                'Member_id'       => $Member_id,
                 'tutor_id'       => $tutor->user_id,
                 'skor_lokasi'    => round($skor_lokasi, 2),
                 'skor_mapel'     => round($skor_mapel, 2),
@@ -277,7 +277,7 @@ class TutorMatchService
      *   - Jika kriteria berisi 'jam'  → cocokkan berdasarkan jam (existing)
      *   - Keduanya bisa dipakai bersamaan; sesi lebih fleksibel untuk UX
      *
-     * Catatan: pastikan controller juga mengirim 'jam' (lihat TutorMatchController)
+     * Catatan: pastikan controller juga mengirim 'jam' (lihat MatchController)
      */
     private function skorJadwal(TutorProfile $tutor, array $kriteria): float
     {

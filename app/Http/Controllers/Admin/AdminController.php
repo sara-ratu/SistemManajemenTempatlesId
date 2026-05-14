@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Models\MatchingLog;
 use App\Models\HonorTutor;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -18,10 +19,10 @@ class AdminController extends Controller
     public function dashboard()
     {
         $stats = [
-            'total_murid'   => User::where('role', 'murid')->count(),
-            'total_tutor'   => User::where('role', 'tutor')->count(),
-            'pending_tutor' => TutorProfile::where('status_verifikasi', 'pending')->count(),
-            'total_booking' => Booking::count(),
+            'total_member'   => User::where('role', 'member')->count(),
+            'total_tutor'    => User::where('role', 'tutor')->count(),
+            'pending_tutor'  => TutorProfile::where('status_verifikasi', 'pending')->count(),
+            'total_booking'  => Booking::count(),
         ];
 
         $tutorPending = TutorProfile::with('user')
@@ -43,7 +44,7 @@ class AdminController extends Controller
             ->latest()
             ->paginate(10);
 
-        $pendingMembers = User::where('role', 'murid')
+        $pendingMembers = User::where('role', 'member')
             ->where('is_verified', false)
             ->latest()
             ->paginate(10);
@@ -108,7 +109,7 @@ class AdminController extends Controller
 
     public function matchingLog()
     {
-        $logs = MatchingLog::with(['murid', 'tutor'])
+        $logs = MatchingLog::with(['member', 'tutor'])   // diperbaiki
             ->latest()
             ->paginate(20);
 
@@ -215,12 +216,12 @@ class AdminController extends Controller
     }
 
     /**
-     * ===================== DAFTAR MEMBER (MURID) =====================
+     * ===================== DAFTAR MEMBER =====================
      */
     public function daftarMember()
     {
-        $members = User::where('role', 'murid')
-                    ->withCount('bookingsAsMurid')
+        $members = User::where('role', 'member')
+                    ->withCount('bookingsAsMember')
                     ->latest()
                     ->paginate(15);
 
@@ -229,7 +230,7 @@ class AdminController extends Controller
 
     public function memberEdit(User $user)
     {
-        if ($user->role !== 'murid') {
+        if ($user->role !== 'member') {
             abort(403, 'Bukan member.');
         }
 
@@ -238,16 +239,20 @@ class AdminController extends Controller
 
     public function memberUpdate(Request $request, User $user)
     {
-        if ($user->role !== 'murid') {
-            abort(403);
+        if ($user->role !== 'member') {
+            abort(403, 'Bukan member.');
         }
 
         $request->validate([
-            'name'      => 'required|string|max:255',
-            'email'     => 'required|email|max:255|unique:users,email,' . $user->id,
-            'no_hp'     => 'nullable|string|max:20',
-            'alamat'    => 'nullable|string',
-            'kota'      => 'nullable|string|max:100',
+            'name'        => 'required|string|max:255',
+            'email'       => ['required',
+             'email',
+             'max:255',
+             \Illuminate\Validation\Rule::unique('users')->ignore($user)
+             ],
+            'no_hp'       => 'nullable|string|max:20',
+            'alamat'      => 'nullable|string',
+            'kota'        => 'nullable|string|max:100',
             'is_verified' => 'boolean',
         ]);
 
@@ -261,12 +266,11 @@ class AdminController extends Controller
 
     public function memberToggleStatus(User $user)
     {
-        if ($user->role !== 'murid') {
+        if ($user->role !== 'member') {
             abort(403);
         }
 
         $newStatus = !$user->is_active;
-
         $user->update(['is_active' => $newStatus]);
 
         $statusText = $newStatus ? 'diaktifkan' : 'dinonaktifkan';

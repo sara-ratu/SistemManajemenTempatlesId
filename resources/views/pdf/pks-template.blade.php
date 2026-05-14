@@ -364,7 +364,7 @@
         <div class="pasal-subtitle">Ruang Lingkup Kerja Sama</div>
         <ol class="pasal-list">
             <li>Pihak Pertama memberikan akses kepada Pihak Kedua untuk bergabung sebagai tutor pada platform Tempatles.id.</li>
-            <li>Pihak Kedua bersedia menyediakan jasa pengajaran kepada murid yang dijodohkan melalui platform Tempatles.id.</li>
+            <li>Pihak Kedua bersedia menyediakan jasa pengajaran kepada Member yang dijodohkan melalui platform Tempatles.id.</li>
             <li>Ruang lingkup pengajaran meliputi mata pelajaran yang telah disetujui sesuai kompetensi Pihak Kedua.</li>
         </ol>
     </div>
@@ -376,7 +376,7 @@
         <ol class="pasal-list">
             <li>Tarif mengajar Pihak Kedua sebesar <strong>Rp {{ number_format($pks->tutorProfile->tarif_per_jam ?? 0, 0, ',', '.') }}</strong> per sesi.</li>
             <li>Pembagian hasil: <strong>90% (sembilan puluh persen)</strong> untuk Pihak Kedua dan <strong>10% (sepuluh persen)</strong> untuk Pihak Pertama sebagai biaya pengelolaan platform.</li>
-            <li>Honor dibayarkan setiap hari Jumat setelah sesi dikonfirmasi selesai oleh murid.</li>
+            <li>Honor dibayarkan setiap hari Jumat setelah sesi dikonfirmasi selesai oleh Member.</li>
             <li>Pembayaran dilakukan melalui rekening bank yang telah didaftarkan Pihak Kedua.</li>
         </ol>
     </div>
@@ -386,9 +386,9 @@
         <div class="pasal-title">PASAL 3</div>
         <div class="pasal-subtitle">Kewajiban Para Pihak</div>
         <ol class="pasal-list">
-            <li>Pihak Kedua wajib hadir tepat waktu sesuai jadwal yang telah disepakati dengan murid.</li>
+            <li>Pihak Kedua wajib hadir tepat waktu sesuai jadwal yang telah disepakati dengan Member.</li>
             <li>Pihak Kedua wajib mengisi laporan sesi setelah setiap sesi mengajar.</li>
-            <li>Pihak Kedua dilarang mengajak murid untuk bertransaksi di luar platform Tempatles.id.</li>
+            <li>Pihak Kedua dilarang mengajak Member untuk bertransaksi di luar platform Tempatles.id.</li>
             <li>Pihak Pertama wajib menyediakan platform yang berfungsi baik dan memproses pembayaran tepat waktu.</li>
         </ol>
     </div>

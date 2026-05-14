@@ -1,5 +1,5 @@
-{{-- resources/views/murid/pembayaran/create.blade.php --}}
-@extends('layouts.murid')
+{{-- resources/views/Member/pembayaran/create.blade.php --}}
+@extends('layouts.Member')
 
 @section('title', 'Upload Bukti Pembayaran')
 
@@ -33,7 +33,7 @@
         </div>
     @endif
 
-    <form action="{{ route('murid.pembayaran.store', $booking) }}"
+    <form action="{{ route('Member.pembayaran.store', $booking) }}"
           method="POST" enctype="multipart/form-data"
           class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 space-y-5">
         @csrf

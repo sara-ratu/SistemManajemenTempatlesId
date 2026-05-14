@@ -5,7 +5,7 @@
             <table class="w-full text-sm">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="text-left px-4 py-3 text-xs text-gray-500 font-medium">Murid</th>
+                        <th class="text-left px-4 py-3 text-xs text-gray-500 font-medium">Member</th>
                         <th class="text-left px-4 py-3 text-xs text-gray-500 font-medium">Tutor</th>
                         <th class="text-center px-4 py-3 text-xs text-gray-500 font-medium">Mapel</th>
                         <th class="text-center px-4 py-3 text-xs text-gray-500 font-medium">Lokasi</th>
@@ -19,7 +19,7 @@
                 <tbody>
                     @foreach($logs as $log)
                     <tr class="border-t border-gray-50 hover:bg-gray-50">
-                        <td class="px-4 py-3">{{ $log->murid->name }}</td>
+                        <td class="px-4 py-3">{{ $log->Member->name }}</td>
                         <td class="px-4 py-3">{{ $log->tutor->name }}</td>
                         <td class="px-4 py-3 text-center">{{ $log->skor_mapel }}</td>
                         <td class="px-4 py-3 text-center">{{ $log->skor_lokasi }}</td>

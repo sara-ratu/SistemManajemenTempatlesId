@@ -13,7 +13,7 @@ class LaporanController extends Controller
      */
     public function index(Request $request)
     {
-        $laporans = LaporanSesi::with(['booking.murid', 'tutor'])
+        $laporans = LaporanSesi::with(['booking.Member', 'tutor'])
             ->when($request->status, fn($q) => $q->where('status_laporan', $request->status))
             ->orderByDesc('created_at')
             ->paginate(20);
@@ -26,7 +26,7 @@ class LaporanController extends Controller
      */
     public function show(LaporanSesi $laporanSesi)
     {
-        $laporanSesi->load(['booking.murid', 'tutor']);
+        $laporanSesi->load(['booking.Member', 'tutor']);
         return view('admin.laporan.show', compact('laporanSesi'));
     }
 

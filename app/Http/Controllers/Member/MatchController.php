@@ -1,26 +1,36 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Member;
 
+use App\Http\Controllers\Controller;
 use App\Models\Subject;
 use App\Services\TutorMatchService;
 use Illuminate\Http\Request;
 
-class TutorMatchController extends Controller
+class MatchController extends Controller
 {
-    public function __construct(
-        protected TutorMatchService $matchService
-    ) {}
+    protected TutorMatchService $matchService;
 
+    public function __construct(TutorMatchService $matchService)
+    {
+        $this->matchService = $matchService;
+    }
+
+    /**
+     * Tampilkan halaman cari tutor
+     */
     public function index()
     {
         $subjects = Subject::where('is_active', true)
             ->orderBy('nama_mapel')
             ->get();
 
-        return view('murid.cari-tutor', compact('subjects'));
+        return view('member.cari-tutor', compact('subjects'));
     }
 
+    /**
+     * Proses pencarian / matching tutor
+     */
     public function search(Request $request)
     {
         $validated = $request->validate([
@@ -29,8 +39,8 @@ class TutorMatchController extends Controller
             'hari'       => 'nullable|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
             'jam'        => 'nullable|date_format:H:i',
             'sesi'       => 'nullable|in:Pagi,Siang,Sore',
-            'metode'     => 'nullable|in:online,offline,keduanya',
-            'jenjang'    => 'nullable|in:SD,SMP,SMA,Kuliah',
+            'metode'     => 'nullable|in:online,offline,both',
+            'jenjang'    => 'nullable|in:SD,SMP,SMA,Kuliah,Umum',
             'latitude'   => 'nullable|numeric',
             'longitude'  => 'nullable|numeric',
             'kecamatan'  => 'nullable|string|max:100',
@@ -46,10 +56,11 @@ class TutorMatchController extends Controller
             ->orderBy('nama_mapel')
             ->get();
 
-        return view('murid.cari-tutor', [
-            'hasil'    => $hasil,
-            'subjects' => $subjects,
-            'kriteria' => $validated,
+        return view('member.cari-tutor', [
+            'hasil'     => $hasil,
+            'subjects'  => $subjects,
+            'kriteria'  => $validated,
+            'searching' => true,   // flag untuk menandakan sedang mencari
         ]);
     }
 }

@@ -93,14 +93,14 @@
                         </td>
                         <td class="px-6 py-4">
                             @if ($h->status === 'pending')
-                                <button onclick="openTransferModal({{ $h->id }}, '{{ addslashes($h->tutor->name ?? '') }}', 'Rp {{ number_format($h->jumlah_honor ?? 0, 0, ',', '.') }}')"
+                                <button onclick="openTransferModal({{ $h->getKey() }}, '{{ addslashes($h->tutor->name ?? '') }}', 'Rp {{ number_format($h->jumlah_honor ?? 0, 0, ',', '.') }}')"
                                         class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
                                     Transfer
                                 </button>
                             @else
                                 @if ($h->bukti_transfer)
                                     <a href="{{ Storage::url($h->bukti_transfer) }}" target="_blank"
-                                       class="text-blue-600 hover:text-blue-700 hover:underline text-sm flex items-center gap-1">
+                                    class="text-blue-600 hover:text-blue-700 hover:underline text-sm flex items-center gap-1">
                                         📄 Lihat Bukti
                                     </a>
                                 @endif

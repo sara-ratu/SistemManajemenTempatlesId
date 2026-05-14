@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('matching_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('murid_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('Member_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('tutor_id')->constrained('users')->onDelete('cascade');
             $table->decimal('skor_lokasi', 5, 2)->default(0);
             $table->decimal('skor_mapel', 5, 2)->default(0);

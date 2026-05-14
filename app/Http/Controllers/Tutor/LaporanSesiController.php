@@ -34,7 +34,7 @@ class LaporanSesiController extends Controller
         $data = $request->validate([
             'tanggal_sesi'       => 'required|date',
             'materi_diajarkan'   => 'required|string|max:2000',
-            'perkembangan_murid' => 'nullable|string|max:2000',
+            'perkembangan_Member' => 'nullable|string|max:2000',
             'kendala'            => 'nullable|string|max:1000',
             'catatan_tambahan'   => 'nullable|string|max:1000',
             'aksi'               => 'required|in:draft,submit',
@@ -48,7 +48,7 @@ class LaporanSesiController extends Controller
                 'tutor_id'           => Auth::id(),
                 'tanggal_sesi'       => $data['tanggal_sesi'],
                 'materi_diajarkan'   => $data['materi_diajarkan'],
-                'perkembangan_murid' => $data['perkembangan_murid'],
+                'perkembangan_Member' => $data['perkembangan_Member'],
                 'kendala'            => $data['kendala'],
                 'catatan_tambahan'   => $data['catatan_tambahan'],
                 'status_laporan'     => $status,
@@ -67,7 +67,7 @@ class LaporanSesiController extends Controller
      */
     public function index()
     {
-        $laporans = LaporanSesi::with('booking.murid')
+        $laporans = LaporanSesi::with('booking.Member')
             ->where('tutor_id', Auth::id())
             ->orderByDesc('tanggal_sesi')
             ->paginate(15);

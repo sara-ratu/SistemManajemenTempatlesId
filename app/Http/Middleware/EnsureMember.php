@@ -5,12 +5,12 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class EnsureMurid
+class EnsureMember
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || !auth()->user()->isMurid()) {
-            abort(403, 'Akses ditolak. Halaman ini khusus murid.');
+        if (!auth()->check() || !auth()->user()->isMember()) {
+            abort(403, 'Akses ditolak. Halaman ini khusus member.');
         }
         return $next($request);
     }

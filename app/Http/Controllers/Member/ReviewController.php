@@ -11,31 +11,31 @@ use Illuminate\Http\Request;
 class ReviewController extends Controller
 {
     /**
-     * Form tulis review (murid)
+     * Form tulis review (Member)
      */
     public function create(Booking $booking)
     {
-        // Pastikan booking milik murid yang login
-        abort_if($booking->murid_id !== auth()->id(), 403);
+        // Pastikan booking milik Member yang login
+        abort_if($booking->Member_id !== auth()->id(), 403);
 
         // Hanya booking selesai
         abort_if($booking->status !== 'selesai', 403, 'Hanya sesi selesai yang bisa direview.');
 
         // Sudah review?
         if ($booking->review) {
-            return redirect()->route('murid.riwayat')
+            return redirect()->route('Member.riwayat')
                 ->with('info', 'Kamu sudah memberikan ulasan untuk sesi ini.');
         }
 
-        return view('murid.review.create', compact('booking'));
+        return view('Member.review.create', compact('booking'));
     }
 
     /**
-     * Simpan review (murid)
+     * Simpan review (Member)
      */
     public function store(Request $request, Booking $booking)
     {
-        abort_if($booking->murid_id !== auth()->id(), 403);
+        abort_if($booking->Member_id !== auth()->id(), 403);
         abort_if($booking->status !== 'selesai', 403);
         abort_if($booking->review()->exists(), 403, 'Review sudah dikirim.');
 
@@ -46,7 +46,7 @@ class ReviewController extends Controller
 
         Review::create([
             'booking_id' => $booking->id,
-            'murid_id'   => $booking->murid_id,
+            'Member_id'   => $booking->Member_id,
             'tutor_id'   => $booking->tutor_id,
             'rating'     => $request->rating,
             'komentar'   => $request->komentar,
@@ -55,7 +55,7 @@ class ReviewController extends Controller
 
         $this->recalculateRating($booking->tutor_id);
 
-        return redirect()->route('murid.riwayat')
+        return redirect()->route('Member.riwayat')
             ->with('success', 'Ulasan berhasil dikirim. Terima kasih!');
     }
 

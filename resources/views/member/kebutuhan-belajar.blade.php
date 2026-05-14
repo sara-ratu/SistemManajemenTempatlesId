@@ -34,7 +34,7 @@
             </div>
 
             {{-- Form --}}
-            <form action="{{ route('murid.kebutuhan-belajar.store') }}" method="POST" class="p-8 space-y-6">
+            <form action="{{ route('Member.kebutuhan-belajar.store') }}" method="POST" class="p-8 space-y-6">
                 @csrf
 
                 @if($errors->any())
@@ -164,7 +164,7 @@
                 </div>
 
                 <div class="pt-2 flex gap-3">
-                    <a href="{{ route('murid.dashboard') }}"
+                    <a href="{{ route('Member.dashboard') }}"
                        class="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 text-center transition-colors">
                         Lewati dulu
                     </a>

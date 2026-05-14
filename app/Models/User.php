@@ -41,9 +41,9 @@ class User extends Authenticatable
     ];
 
     // ── Role Helpers ──────────────────────────
-    public function isMurid(): bool
+    public function isMember(): bool
     {
-        return $this->role === 'murid';
+        return $this->role === 'Member';
     }
 
     public function isTutor(): bool
@@ -61,7 +61,7 @@ class User extends Authenticatable
     {
         if ($this->isAdmin()) return route('admin.dashboard');
         if ($this->isTutor()) return route('tutor.dashboard');
-        return route('murid.dashboard');
+        return route('Member.dashboard');
     }
 
     // ── Relasi ────────────────────────────────
@@ -70,9 +70,9 @@ class User extends Authenticatable
         return $this->hasOne(TutorProfile::class);
     }
 
-    public function bookingsAsMurid()
+    public function bookingsAsMember()
     {
-        return $this->hasMany(Booking::class, 'murid_id');
+        return $this->hasMany(Booking::class, 'Member_id');
     }
 
     public function bookingsAsTutor()
@@ -80,9 +80,9 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class, 'tutor_id');
     }
 
-    public function reviewsAsMurid()
+    public function reviewsAsMember()
     {
-        return $this->hasMany(Review::class, 'murid_id');
+        return $this->hasMany(Review::class, 'Member_id');
     }
 
     public function reviewsAsTutor()
@@ -92,7 +92,7 @@ class User extends Authenticatable
 
     public function matchingLogs()
     {
-        return $this->hasMany(MatchingLog::class, 'murid_id');
+        return $this->hasMany(MatchingLog::class, 'Member_id');
     }
 
     public function routeNotificationForFonnte(): ?string

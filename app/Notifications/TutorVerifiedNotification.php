@@ -34,7 +34,7 @@ class TutorVerifiedNotification extends Notification implements ShouldQueue
             ->subject('🎉 Selamat! Akun Tutor Kamu Telah Diverifikasi — Tempatles.id')
             ->greeting('Halo, ' . $this->tutorName . '!')
             ->line('Kabar baik! Akun tutor kamu di **Tempatles.id** telah **diverifikasi** oleh tim admin kami.')
-            ->line('Kamu sudah bisa masuk dan mulai menerima booking dari murid.')
+            ->line('Kamu sudah bisa masuk dan mulai menerima booking dari Member.')
             ->action('Login Sekarang', $this->loginUrl)
             ->line('Jika ada pertanyaan, hubungi kami melalui halaman kontak di website.')
             ->salutation('Salam, Tim Tempatles.id');
@@ -48,7 +48,7 @@ class TutorVerifiedNotification extends Notification implements ShouldQueue
         return
             "🎉 *Selamat, {$this->tutorName}!*\n\n" .
             "Akun tutor kamu di *Tempatles.id* telah *DIVERIFIKASI* oleh admin.\n\n" .
-            "✅ Kamu sudah bisa login dan mulai menerima booking dari murid.\n\n" .
+            "✅ Kamu sudah bisa login dan mulai menerima booking dari Member.\n\n" .
             "🔗 Login: {$this->loginUrl}\n\n" .
             "_Tim Tempatles.id_";
     }

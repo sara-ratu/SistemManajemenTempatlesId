@@ -88,15 +88,15 @@
             </div>
 
             <div class="mt-4">
-                <a href="{{ route('murid.dashboard') }}" class="nav-link active d-flex align-items-center gap-3">
+                <a href="{{ route('Member.dashboard') }}" class="nav-link active d-flex align-items-center gap-3">
                     <i class="fa fa-home fa-fw"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="{{ route('murid.cari-tutor') }}" class="nav-link d-flex align-items-center gap-3">
+                <a href="{{ route('Member.cari-tutor') }}" class="nav-link d-flex align-items-center gap-3">
                     <i class="fa fa-search fa-fw"></i>
                     <span>Cari Tutor</span>
                 </a>
-                <a href="{{ route('murid.riwayat') }}" class="nav-link d-flex align-items-center gap-3">
+                <a href="{{ route('Member.riwayat') }}" class="nav-link d-flex align-items-center gap-3">
                     <i class="fa fa-calendar-alt fa-fw"></i>
                     <span>Jadwal & Riwayat</span>
                 </a>
@@ -187,7 +187,7 @@
             <div class="p-5 text-center bg-white border rounded-3" style="border-color: #e5e7eb;">
                 <i class="fa fa-clock fa-3x text-muted mb-3" style="opacity: 0.15;"></i>
                 <p class="text-muted">Belum ada aktivitas belajar saat ini</p>
-                <a href="{{ route('murid.cari-tutor') }}" class="btn btn-primary mt-3">
+                <a href="{{ route('Member.cari-tutor') }}" class="btn btn-primary mt-3">
                     <i class="fa fa-search me-2"></i>Mulai Cari Tutor
                 </a>
             </div>

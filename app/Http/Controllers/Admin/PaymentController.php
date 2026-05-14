@@ -16,7 +16,7 @@ class PaymentController extends Controller
     {
         $status = $request->get('status', 'pending');
 
-        $pembayarans = Pembayaran::with(['booking.tutor', 'murid'])
+        $pembayarans = Pembayaran::with(['booking.tutor', 'Member'])
             ->when($status !== 'all', fn($q) => $q->where('status', $status))
             ->latest()
             ->paginate(20);
@@ -35,7 +35,7 @@ class PaymentController extends Controller
      */
     public function show(Pembayaran $pembayaran)
     {
-        $pembayaran->load(['booking.tutor.tutorProfile', 'murid', 'verifiedBy']);
+        $pembayaran->load(['booking.tutor.tutorProfile', 'Member', 'verifiedBy']);
 
         return view('admin.pembayaran.show', compact('pembayaran'));
     }
@@ -96,6 +96,6 @@ class PaymentController extends Controller
         ]);
 
         return redirect()->route('admin.pembayaran.index')
-            ->with('success', 'Pembayaran ditolak. Murid akan diberitahu.');
+            ->with('success', 'Pembayaran ditolak. Member akan diberitahu.');
     }
 }

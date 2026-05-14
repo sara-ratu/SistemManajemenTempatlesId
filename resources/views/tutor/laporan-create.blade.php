@@ -8,7 +8,7 @@
 
     <h1 class="text-2xl font-bold text-gray-800 mb-1">Laporan Sesi</h1>
     <p class="text-gray-500 mb-6">
-        Murid: <strong>{{ $booking->murid->name }}</strong> —
+        Member: <strong>{{ $booking->Member->name }}</strong> —
         Booking #{{ $booking->id }}
     </p>
 
@@ -57,11 +57,11 @@
         </div>
 
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Perkembangan Murid</label>
-            <textarea name="perkembangan_murid" rows="3" maxlength="2000"
-                      placeholder="Ceritakan kemajuan atau pemahaman murid selama sesi..."
+            <label class="block text-sm font-medium text-gray-700 mb-1">Perkembangan Member</label>
+            <textarea name="perkembangan_Member" rows="3" maxlength="2000"
+                      placeholder="Ceritakan kemajuan atau pemahaman Member selama sesi..."
                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 resize-none"
-                      {{ $laporan?->isApproved() ? 'disabled' : '' }}>{{ old('perkembangan_murid', $laporan?->perkembangan_murid) }}</textarea>
+                      {{ $laporan?->isApproved() ? 'disabled' : '' }}>{{ old('perkembangan_Member', $laporan?->perkembangan_Member) }}</textarea>
         </div>
 
         <div>
@@ -75,7 +75,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Catatan Tambahan</label>
             <textarea name="catatan_tambahan" rows="2" maxlength="1000"
-                      placeholder="PR untuk murid, rencana sesi berikutnya, dll..."
+                      placeholder="PR untuk Member, rencana sesi berikutnya, dll..."
                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 resize-none"
                       {{ $laporan?->isApproved() ? 'disabled' : '' }}>{{ old('catatan_tambahan', $laporan?->catatan_tambahan) }}</textarea>
         </div>

@@ -25,9 +25,9 @@
         <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Info Booking</h2>
         <div class="grid grid-cols-2 gap-3 text-sm">
             <div>
-                <p class="text-gray-400">Murid</p>
-                <p class="font-medium text-gray-800">{{ $pembayaran->murid->name }}</p>
-                <p class="text-gray-500 text-xs">{{ $pembayaran->murid->email }}</p>
+                <p class="text-gray-400">Member</p>
+                <p class="font-medium text-gray-800">{{ $pembayaran->Member->name }}</p>
+                <p class="text-gray-500 text-xs">{{ $pembayaran->Member->email }}</p>
             </div>
             <div>
                 <p class="text-gray-400">Tutor</p>

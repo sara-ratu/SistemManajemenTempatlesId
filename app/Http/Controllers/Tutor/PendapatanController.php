@@ -60,7 +60,7 @@ class PendapatanController extends Controller
         // Pastikan hanya tutor pemilik yang bisa lihat
         abort_if($honorTutor->tutor_id !== Auth::id(), 403);
 
-        $honorTutor->load('booking.murid', 'booking.subject');
+        $honorTutor->load('booking.Member', 'booking.subject');
 
         return view('tutor.pendapatan-detail', compact('honorTutor'));
     }

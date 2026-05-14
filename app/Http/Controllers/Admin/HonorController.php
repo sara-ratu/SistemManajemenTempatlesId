@@ -20,17 +20,14 @@ class HonorController extends Controller
         $query = HonorTutor::with(['tutor'])
             ->latest();
 
-        // Filter berdasarkan status
         if ($status === 'pending') {
             $query->where('status', 'pending');
         } elseif ($status === 'ditransfer') {
             $query->where('status', 'ditransfer');
         }
-        // 'all' = tampilkan semua
 
         $honors = $query->paginate(15)->withQueryString();
 
-        // Summary untuk cards
         $summary = [
             'pending'    => HonorTutor::where('status', 'pending')->count(),
             'ditransfer' => HonorTutor::where('status', 'ditransfer')->count(),
@@ -45,7 +42,6 @@ class HonorController extends Controller
      */
     public function transfer(HonorTransferRequest $request, HonorTutor $honor)
     {
-        // Cek agar tidak double transfer
         if ($honor->status === 'ditransfer') {
             return redirect()
                 ->route('admin.honor.index')
@@ -68,9 +64,11 @@ class HonorController extends Controller
 
             DB::commit();
 
+            $namaTutor = $honor->tutor ? $honor->tutor->name : 'Tutor';
+
             return redirect()
                 ->route('admin.honor.index')
-                ->with('success', "Honor untuk {$honor->tutor->name} berhasil ditransfer.");
+                ->with('success', "Honor untuk {$namaTutor} berhasil ditransfer.");
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -80,9 +78,4 @@ class HonorController extends Controller
                 ->with('error', 'Terjadi kesalahan saat memproses transfer. Silakan coba lagi.');
         }
     }
-
-    // Method tambahan yang mungkin dibutuhkan di masa depan
-    // public function dashboard() { ... }
-    // public function gajiTutor() { ... }
-    // public function rekap() { ... }
 }

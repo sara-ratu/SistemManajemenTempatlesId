@@ -49,7 +49,7 @@
         <div class="bg-white rounded-xl border border-gray-100 p-6">
             <h3 class="font-semibold text-gray-700 mb-5">Isi Detail Booking</h3>
 
-            <form method="POST" action="{{ route('murid.booking.store', $tutor) }}" class="space-y-4">
+            <form method="POST" action="{{ route('Member.booking.store', $tutor) }}" class="space-y-4">
                 @csrf
 
                 {{-- Mata Pelajaran --}}
@@ -104,7 +104,7 @@
                 <div>
                     <label class="block text-xs text-gray-500 mb-1">Catatan (opsional)</label>
                     <textarea name="catatan" rows="3"
-                              placeholder="Contoh: les di rumah murid, fokus materi tertentu, dll."
+                              placeholder="Contoh: les di rumah Member, fokus materi tertentu, dll."
                               class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none">{{ old('catatan') }}</textarea>
                 </div>
 

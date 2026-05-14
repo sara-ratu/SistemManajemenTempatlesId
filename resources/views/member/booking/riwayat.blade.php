@@ -14,7 +14,7 @@
         {{-- Filter Status --}}
         <div class="flex gap-2 mb-6 flex-wrap">
             @foreach(['all' => 'Semua', 'pending' => 'Menunggu', 'confirmed' => 'Dikonfirmasi', 'selesai' => 'Selesai', 'cancelled' => 'Dibatalkan', 'rejected' => 'Ditolak'] as $val => $label)
-                <a href="{{ route('murid.riwayat', ['status' => $val]) }}"
+                <a href="{{ route('Member.riwayat', ['status' => $val]) }}"
                    class="px-4 py-1.5 rounded-full text-xs font-medium border transition
                           {{ $status === $val
                              ? 'bg-blue-600 text-white border-blue-600'
@@ -55,7 +55,7 @@
                     {{-- Aksi --}}
                     <div class="flex flex-col gap-2 shrink-0">
                         @if($b->isPending())
-                            <form method="POST" action="{{ route('murid.booking.cancel', $b) }}"
+                            <form method="POST" action="{{ route('Member.booking.cancel', $b) }}"
                                   onsubmit="return confirm('Batalkan booking ini?')">
                                 @csrf @method('PATCH')
                                 <button class="text-xs text-red-500 border border-red-200 px-3 py-1.5 rounded-lg hover:bg-red-50">
@@ -64,7 +64,7 @@
                             </form>
                         @endif
                         @if($b->isSelesai() && ! $b->review)
-                            <a href="{{ route('murid.review.create', $b) }}"
+                            <a href="{{ route('Member.review.create', $b) }}"
                                class="text-xs text-blue-600 border border-blue-200 px-3 py-1.5 rounded-lg hover:bg-blue-50">
                                 Beri Ulasan
                             </a>
@@ -76,7 +76,7 @@
             <div class="bg-white rounded-xl border border-gray-100 p-12 text-center">
                 <div class="text-4xl mb-3">📋</div>
                 <p class="text-gray-400 text-sm">Belum ada booking.</p>
-                <a href="{{ route('murid.cari-tutor') }}"
+                <a href="{{ route('Member.cari-tutor') }}"
                    class="mt-4 inline-block text-sm text-blue-600 hover:underline">
                     Cari tutor sekarang →
                 </a>

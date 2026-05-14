@@ -13,7 +13,7 @@ class Pembayaran extends Model
 
     protected $fillable = [
         'booking_id',
-        'murid_id',
+        'Member_id',
         'jumlah',
         'metode',
         'bukti_transfer',
@@ -35,9 +35,9 @@ class Pembayaran extends Model
         return $this->belongsTo(Booking::class);
     }
 
-    public function murid()
+    public function Member()
     {
-        return $this->belongsTo(User::class, 'murid_id');
+        return $this->belongsTo(User::class, 'Member_id');
     }
 
     public function verifiedBy()

@@ -10,7 +10,7 @@ class MatchingLog extends Model
     use HasFactory;
 
     protected $fillable = [
-        'murid_id', 'tutor_id',
+        'Member_id', 'tutor_id',
         'skor_lokasi', 'skor_mapel', 'skor_harga',
         'skor_jadwal', 'skor_rating', 'skor_total',
         'kriteria_input',
@@ -20,9 +20,9 @@ class MatchingLog extends Model
         'kriteria_input' => 'array',
     ];
 
-    public function murid()
+    public function Member()
     {
-        return $this->belongsTo(User::class, 'murid_id');
+        return $this->belongsTo(User::class, 'Member_id');
     }
 
     public function tutor()

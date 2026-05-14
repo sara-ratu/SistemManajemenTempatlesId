@@ -13,7 +13,7 @@ class ReviewModerationController extends Controller
      */
     public function index()
     {
-        $reviews = Review::with(['murid', 'tutor', 'booking'])
+        $reviews = Review::with(['Member', 'tutor', 'booking'])
             ->latest()
             ->paginate(20);
 

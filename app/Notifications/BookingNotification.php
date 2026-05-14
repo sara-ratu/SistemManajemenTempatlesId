@@ -15,7 +15,7 @@ class BookingNotification extends Notification implements ShouldQueue
 
     /**
      * @param  Booking  $booking
-     * @param  string   $recipient  'tutor' | 'murid'
+     * @param  string   $recipient  'tutor' | 'Member'
      */
     public function __construct(
         public readonly Booking $booking,
@@ -41,15 +41,15 @@ class BookingNotification extends Notification implements ShouldQueue
 
         $greeting = $isTutor
             ? 'Halo, ' . $booking->tutor->name . '!'
-            : 'Halo, ' . $booking->murid->name . '!';
+            : 'Halo, ' . $booking->Member->name . '!';
 
         $intro = $isTutor
-            ? 'Ada booking baru masuk untuk kamu dari **' . $booking->murid->name . '**.'
+            ? 'Ada booking baru masuk untuk kamu dari **' . $booking->Member->name . '**.'
             : 'Booking kamu dengan tutor **' . $booking->tutor->name . '** berhasil dibuat.';
 
         $detailUrl = $isTutor
             ? route('tutor.booking.show', $booking->id)
-            : route('murid.booking.show', $booking->id);
+            : route('Member.booking.show', $booking->id);
 
         return (new MailMessage)
             ->subject($subject)
@@ -74,7 +74,7 @@ class BookingNotification extends Notification implements ShouldQueue
         if ($isTutor) {
             return
                 "📚 *Booking Baru!*\n\n" .
-                "Halo *{$booking->tutor->name}*, ada booking baru dari *{$booking->murid->name}*.\n\n" .
+                "Halo *{$booking->tutor->name}*, ada booking baru dari *{$booking->Member->name}*.\n\n" .
                 "📖 Mapel  : {$booking->subject->name}\n" .
                 "📅 Tanggal: {$booking->tanggal?->format('d M Y')}\n" .
                 "🕐 Jam    : {$booking->jam_mulai} – {$booking->jam_selesai}\n" .
@@ -85,7 +85,7 @@ class BookingNotification extends Notification implements ShouldQueue
 
         return
             "✅ *Booking Berhasil!*\n\n" .
-            "Halo *{$booking->murid->name}*, booking kamu sudah masuk.\n\n" .
+            "Halo *{$booking->Member->name}*, booking kamu sudah masuk.\n\n" .
             "👨‍🏫 Tutor  : {$booking->tutor->name}\n" .
             "📖 Mapel  : {$booking->subject->name}\n" .
             "📅 Tanggal: {$booking->tanggal?->format('d M Y')}\n" .

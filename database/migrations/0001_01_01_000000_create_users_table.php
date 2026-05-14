@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role', ['murid', 'tutor', 'admin'])->default('murid');
+            $table->enum('role', ['Member', 'tutor', 'admin'])->default('Member');
             $table->string('no_hp')->nullable();
             $table->string('foto_profil')->nullable();
             $table->text('alamat')->nullable();

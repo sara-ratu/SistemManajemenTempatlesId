@@ -18,7 +18,7 @@
         <table class="w-full text-sm">
             <thead class="bg-gray-50 border-b border-gray-200">
                 <tr>
-                    <th class="px-4 py-3 text-left font-medium text-gray-500">Murid</th>
+                    <th class="px-4 py-3 text-left font-medium text-gray-500">Member</th>
                     <th class="px-4 py-3 text-left font-medium text-gray-500">Tutor</th>
                     <th class="px-4 py-3 text-left font-medium text-gray-500">Rating</th>
                     <th class="px-4 py-3 text-left font-medium text-gray-500">Komentar</th>
@@ -30,7 +30,7 @@
             <tbody class="divide-y divide-gray-100">
                 @forelse ($reviews as $r)
                     <tr class="{{ $r->is_visible ? '' : 'opacity-50 bg-gray-50' }}">
-                        <td class="px-4 py-3 font-medium text-gray-800">{{ $r->murid->name }}</td>
+                        <td class="px-4 py-3 font-medium text-gray-800">{{ $r->Member->name }}</td>
                         <td class="px-4 py-3 text-gray-600">{{ $r->tutor->name }}</td>
                         <td class="px-4 py-3">
                             <span class="text-yellow-500 font-mono tracking-tighter text-base">

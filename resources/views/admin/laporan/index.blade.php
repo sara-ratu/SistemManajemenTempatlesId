@@ -33,7 +33,7 @@
                 <tr>
                     <th class="px-4 py-3 text-left">Tanggal</th>
                     <th class="px-4 py-3 text-left">Tutor</th>
-                    <th class="px-4 py-3 text-left">Murid</th>
+                    <th class="px-4 py-3 text-left">Member</th>
                     <th class="px-4 py-3 text-left">Materi</th>
                     <th class="px-4 py-3 text-center">Status</th>
                     <th class="px-4 py-3 text-center">Aksi</th>
@@ -46,7 +46,7 @@
                         {{ $laporan->tanggal_sesi->isoFormat('D MMM Y') }}
                     </td>
                     <td class="px-4 py-3 font-medium text-gray-800">{{ $laporan->tutor->name }}</td>
-                    <td class="px-4 py-3 text-gray-600">{{ $laporan->booking->murid->name }}</td>
+                    <td class="px-4 py-3 text-gray-600">{{ $laporan->booking->Member->name }}</td>
                     <td class="px-4 py-3 text-gray-600 max-w-xs truncate">{{ $laporan->materi_diajarkan }}</td>
                     <td class="px-4 py-3 text-center">
                         @if ($laporan->status_laporan === 'approved')

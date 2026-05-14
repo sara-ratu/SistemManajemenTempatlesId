@@ -7,15 +7,15 @@
         {{-- Status Verifikasi --}}
         @if(!$profile || $profile->status_verifikasi !== 'verified')
             <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 text-sm text-yellow-800">
-                Profil kamu belum terverifikasi. <a href="{{ route('tutor.profil') }}" class="font-semibold underline">Lengkapi profil</a> untuk mulai menerima murid.
+                Profil kamu belum terverifikasi. <a href="{{ route('tutor.profil') }}" class="font-semibold underline">Lengkapi profil</a> untuk mulai menerima Member.
             </div>
         @endif
 
         {{-- Stat Cards --}}
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div class="bg-white rounded-xl border border-gray-100 p-4 text-center">
-                <p class="text-2xl font-semibold text-blue-600">{{ $profile?->total_murid ?? 0 }}</p>
-                <p class="text-xs text-gray-500 mt-1">Total Murid</p>
+                <p class="text-2xl font-semibold text-blue-600">{{ $profile?->total_Member ?? 0 }}</p>
+                <p class="text-xs text-gray-500 mt-1">Total Member</p>
             </div>
             <div class="bg-white rounded-xl border border-gray-100 p-4 text-center">
                 <p class="text-2xl font-semibold text-yellow-500">{{ $profile?->rating_rata ?? '-' }}</p>
@@ -35,12 +35,12 @@
         <div class="bg-white rounded-xl border border-gray-100 p-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-semibold text-gray-700">Booking Terbaru</h3>
-                <a href="{{ route('tutor.jadwal') }}" class="text-sm text-blue-600 hover:underline">Kelola Jadwal</a>
+                <a href="{{ route('tutor.jadwal.index') }}" class="text-sm text-blue-600 hover:underline">Kelola Jadwal</a>
             </div>
             @forelse($bookings as $b)
                 <div class="flex items-center justify-between py-3 border-b border-gray-50 last:border-0">
                     <div>
-                        <p class="text-sm font-medium text-gray-800">{{ $b->murid->name }}</p>
+                        <p class="text-sm font-medium text-gray-800">{{ $b->Member->name }}</p>
                         <p class="text-xs text-gray-400">{{ $b->subject->nama_mapel }} · {{ $b->tanggal->format('d M Y') }}</p>
                     </div>
                     <div class="flex items-center gap-2">

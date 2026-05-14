@@ -134,7 +134,7 @@ class VerificationController extends Controller
             ]);
 
             $memberRequest->user->update([
-                'role' => 'murid'
+                'role' => 'Member'
             ]);
 
             DB::commit();

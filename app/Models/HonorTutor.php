@@ -10,7 +10,7 @@ class HonorTutor extends Model
     use HasFactory;
     // === INI YANG PENTING ===
     protected $table = 'honor_tutor';     // singular sesuai migration
-
+    protected $primaryKey = 'id';
     protected $fillable = [
         'tutor_id',
         'jumlah_honor',

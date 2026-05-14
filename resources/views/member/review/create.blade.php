@@ -1,5 +1,5 @@
-{{-- resources/views/murid/review/create.blade.php --}}
-@extends('layouts.murid')
+{{-- resources/views/Member/review/create.blade.php --}}
+@extends('layouts.Member')
 
 @section('title', 'Beri Ulasan')
 
@@ -21,7 +21,7 @@
         </div>
     @endif
 
-    <form action="{{ route('murid.review.store', $booking) }}" method="POST"
+    <form action="{{ route('Member.review.store', $booking) }}" method="POST"
           class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 space-y-6">
         @csrf
 

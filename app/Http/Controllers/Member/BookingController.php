@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class BookingController extends Controller
 {
     // ──────────────────────────────────────────────
-    // Form booking (murid pilih jadwal tutor)
+    // Form booking (Member pilih jadwal tutor)
     // ──────────────────────────────────────────────
 
     public function create(User $tutor)
@@ -23,7 +23,7 @@ class BookingController extends Controller
         $jadwal    = TutorSchedule::where('tutor_id', $tutor->id)->orderBy('hari')->get();
         $subjects  = $profile->subjects()->get();
 
-        return view('murid.booking.create', compact('tutor', 'profile', 'jadwal', 'subjects'));
+        return view('Member.booking.create', compact('tutor', 'profile', 'jadwal', 'subjects'));
     }
 
     // ──────────────────────────────────────────────
@@ -65,7 +65,7 @@ class BookingController extends Controller
 
         // ← UBAH: simpan ke $booking (bukan langsung create tanpa variable)
         $booking = Booking::create([
-            'murid_id'   => Auth::id(),
+            'Member_id'   => Auth::id(),
             'tutor_id'   => $tutor->id,
             'subject_id' => $request->subject_id,
             'tanggal'    => $request->tanggal,
@@ -76,16 +76,16 @@ class BookingController extends Controller
             'catatan'    => $request->catatan,
         ]);
 
-        // ← TAMBAH: kirim notifikasi ke tutor dan murid
+        // ← TAMBAH: kirim notifikasi ke tutor dan Member
         $tutor->notify(new BookingNotification($booking, 'tutor'));
-        Auth::user()->notify(new BookingNotification($booking, 'murid'));
+        Auth::user()->notify(new BookingNotification($booking, 'Member'));
 
-        return redirect()->route('murid.riwayat')
+        return redirect()->route('Member.riwayat')
             ->with('success', 'Booking berhasil dikirim! Tunggu konfirmasi dari tutor.');
     }
 
     // ──────────────────────────────────────────────
-    // Riwayat booking murid
+    // Riwayat booking Member
     // ──────────────────────────────────────────────
 
     public function riwayat(Request $request)
@@ -93,21 +93,21 @@ class BookingController extends Controller
         $status = $request->get('status', 'all');
 
         $bookings = Booking::with(['tutor', 'subject'])
-            ->where('murid_id', Auth::id())
+            ->where('Member_id', Auth::id())
             ->when($status !== 'all', fn($q) => $q->where('status', $status))
             ->latest()
             ->paginate(10);
 
-        return view('murid.booking.riwayat', compact('bookings', 'status'));
+        return view('Member.booking.riwayat', compact('bookings', 'status'));
     }
 
     // ──────────────────────────────────────────────
-    // Batalkan booking (murid)
+    // Batalkan booking (Member)
     // ──────────────────────────────────────────────
 
     public function cancel(Booking $booking)
     {
-        abort_if($booking->murid_id !== Auth::id(), 403);
+        abort_if($booking->Member_id !== Auth::id(), 403);
         abort_if(! in_array($booking->status, ['pending']), 422, 'Booking tidak bisa dibatalkan.');
 
         $booking->update(['status' => 'cancelled']);

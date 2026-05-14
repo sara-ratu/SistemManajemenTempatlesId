@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tutor;
 
 use App\Models\Subject;
 use App\Models\Schedule;
@@ -9,6 +9,7 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\TutorRegistration;
+use App\Http\Controllers\Controller;
 
 class TutorController extends Controller
 {
@@ -64,7 +65,7 @@ class TutorController extends Controller
         $user     = auth()->user();
         $profile  = $user->tutorProfile;
         $bookings = Booking::where('tutor_id', $user->id)
-            ->with(['murid', 'subject'])
+            ->with(['member', 'subject'])
             ->latest()
             ->take(5)
             ->get();

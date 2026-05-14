@@ -47,7 +47,7 @@
             <thead class="bg-gray-50 border-b border-gray-200">
                 <tr>
                     <th class="px-4 py-3 text-left font-medium text-gray-500">#</th>
-                    <th class="px-4 py-3 text-left font-medium text-gray-500">Murid</th>
+                    <th class="px-4 py-3 text-left font-medium text-gray-500">Member</th>
                     <th class="px-4 py-3 text-left font-medium text-gray-500">Tutor</th>
                     <th class="px-4 py-3 text-left font-medium text-gray-500">Jumlah</th>
                     <th class="px-4 py-3 text-left font-medium text-gray-500">Metode</th>
@@ -60,7 +60,7 @@
                 @forelse ($pembayarans as $p)
                     <tr class="hover:bg-gray-50">
                         <td class="px-4 py-3 text-gray-400">{{ $p->id }}</td>
-                        <td class="px-4 py-3 font-medium text-gray-800">{{ $p->murid->name }}</td>
+                        <td class="px-4 py-3 font-medium text-gray-800">{{ $p->Member->name }}</td>
                         <td class="px-4 py-3 text-gray-600">{{ $p->booking->tutor->name }}</td>
                         <td class="px-4 py-3 font-semibold text-gray-800">{{ $p->jumlah_rp }}</td>
                         <td class="px-4 py-3 text-gray-600 capitalize">{{ str_replace('_', ' ', $p->metode) }}</td>

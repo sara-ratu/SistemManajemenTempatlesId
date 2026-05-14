@@ -10,7 +10,7 @@ class Booking extends Model
     use HasFactory;
 
     protected $fillable = [
-        'murid_id', 'tutor_id', 'subject_id',
+        'member_id', 'tutor_id', 'subject_id',
         'tanggal', 'jam_mulai', 'jam_selesai',
         'harga', 'status', 'catatan',
     ];
@@ -19,9 +19,9 @@ class Booking extends Model
         'tanggal' => 'date',
     ];
 
-    public function murid()
+    public function member()
     {
-        return $this->belongsTo(User::class, 'murid_id');
+        return $this->belongsTo(User::class, 'member_id');
     }
 
     public function tutor()

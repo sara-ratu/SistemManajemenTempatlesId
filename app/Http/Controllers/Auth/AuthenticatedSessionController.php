@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($user->isTutor()) {
             return redirect()->route('tutor.dashboard');
         } else {
-            return redirect()->route('murid.dashboard');
+            return redirect()->route('Member.dashboard');
         }
     }
 

@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role'     => ['required', 'in:murid,tutor'], // ← tambahkan ini
+            'role'     => ['required', 'in:Member,tutor'], // ← tambahkan ini
         ]);
 
         $user = User::create([
@@ -53,7 +53,7 @@ class RegisteredUserController extends Controller
         } elseif ($user->isTutor()) {
             return redirect()->route('tutor.dashboard');
         } else {
-            return redirect()->route('murid.dashboard');
+            return redirect()->route('Member.dashboard');
         }
     }
 }

@@ -14,7 +14,7 @@
             <x-input-label for="role" :value="__('Daftar sebagai')" />
             <select id="role" name="role"
                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                <option value="murid">Murid</option>
+                <option value="Member">Member</option>
                 <option value="tutor">Tutor</option>
             </select>
             <x-input-error :messages="$errors->get('role')" class="mt-2" />

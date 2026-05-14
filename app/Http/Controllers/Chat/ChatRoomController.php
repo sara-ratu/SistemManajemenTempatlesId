@@ -12,15 +12,15 @@ class ChatRoomController extends Controller
 {
     /**
      * Buka atau buat room chat berdasarkan booking.
-     * Hanya murid (member) atau tutor yang terlibat di booking ini.
+     * Hanya Member (member) atau tutor yang terlibat di booking ini.
      */
     public function show(Booking $booking)
     {
         $user = Auth::user();
 
-        // Pastikan user adalah murid atau tutor dari booking ini
+        // Pastikan user adalah Member atau tutor dari booking ini
         abort_unless(
-            $user->id === $booking->murid_id || $user->id === $booking->tutor_id,
+            $user->id === $booking->Member_id || $user->id === $booking->tutor_id,
             403
         );
 
@@ -29,7 +29,7 @@ class ChatRoomController extends Controller
             ['booking_id' => $booking->id],
             [
                 'tutor_id'  => $booking->tutor_id,
-                'member_id' => $booking->murid_id,
+                'member_id' => $booking->Member_id,
                 'status'    => 'active',
             ]
         );
@@ -42,7 +42,7 @@ class ChatRoomController extends Controller
 
         $messages = $room->messages()->with('sender')->get();
         $lawan    = $user->id === $booking->tutor_id
-            ? $booking->murid
+            ? $booking->Member
             : $booking->tutor;
 
         return view('chat.room', compact('room', 'messages', 'booking', 'lawan'));

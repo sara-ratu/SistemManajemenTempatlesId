@@ -1,6 +1,6 @@
-{{-- resources/views/murid/tutor/show.blade.php --}}
+{{-- resources/views/Member/tutor/show.blade.php --}}
 {{-- Partial: bagian rating & ulasan — sisipkan ke dalam halaman detail tutor yang sudah ada --}}
-@extends('layouts.murid')
+@extends('layouts.Member')
 
 @section('title', $tutor->name . ' — Detail Tutor')
 
@@ -32,7 +32,7 @@
         </div>
 
         <div class="shrink-0">
-            <a href="{{ route('murid.booking.create', $tutor) }}"
+            <a href="{{ route('Member.booking.create', $tutor) }}"
                class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition">
                 Booking Sekarang
             </a>
@@ -86,7 +86,7 @@
     {{-- ── Ulasan ──────────────────────────────────────── --}}
     <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
         <h2 class="text-base font-semibold text-gray-800 mb-5">
-            Ulasan Murid
+            Ulasan Member
             @if ($reviews->count())
                 <span class="text-gray-400 font-normal text-sm">({{ $reviews->total() }})</span>
             @endif
@@ -96,10 +96,10 @@
             <div class="border-b border-gray-100 pb-4 mb-4 last:border-0 last:mb-0 last:pb-0">
                 <div class="flex items-center gap-3 mb-1">
                     <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-600">
-                        {{ strtoupper(substr($r->murid->name, 0, 1)) }}
+                        {{ strtoupper(substr($r->Member->name, 0, 1)) }}
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-gray-800">{{ $r->murid->name }}</p>
+                        <p class="text-sm font-medium text-gray-800">{{ $r->Member->name }}</p>
                         <p class="text-xs text-gray-400">{{ $r->created_at->isoFormat('D MMM Y') }}</p>
                     </div>
                     <div class="ml-auto text-yellow-400 tracking-tighter">

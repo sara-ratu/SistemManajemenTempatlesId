@@ -20,7 +20,7 @@ class TutorMatchApiController extends Controller
 
         $hasil = $this->matchService->match(
             $kriteria,
-            $request->murid_id ?? 0
+            $request->Member_id ?? 0
         );
 
         return response()->json([

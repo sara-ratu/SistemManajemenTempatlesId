@@ -8,8 +8,8 @@
         {{-- Stat Cards --}}
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div class="bg-white rounded-xl border border-gray-100 p-6 text-center">
-                <p class="text-3xl font-bold text-blue-600">{{ $stats['total_murid'] ?? 0 }}</p>
-                <p class="text-sm text-gray-500 mt-1">Total Murid</p>
+                <p class="text-3xl font-bold text-blue-600">{{ $stats['total_Member'] ?? 0 }}</p>
+                <p class="text-sm text-gray-500 mt-1">Total Member</p>
             </div>
             <div class="bg-white rounded-xl border border-gray-100 p-6 text-center">
                 <p class="text-3xl font-bold text-green-600">{{ $stats['total_tutor'] ?? 0 }}</p>

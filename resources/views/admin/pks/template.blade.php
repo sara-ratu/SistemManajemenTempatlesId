@@ -164,7 +164,7 @@
   <p>
     Perjanjian ini mengatur hubungan kerja sama antara PIHAK PERTAMA sebagai pengelola platform
     Tempatles.id dengan PIHAK KEDUA sebagai tutor yang terdaftar dan telah diverifikasi, dalam
-    rangka memberikan layanan les privat kepada murid yang terdaftar di platform.
+    rangka memberikan layanan les privat kepada Member yang terdaftar di platform.
   </p>
 
   <h2 class="section">Pasal 2 — Masa Berlaku</h2>
@@ -178,18 +178,18 @@
 
   <h2 class="section">Pasal 3 — Kewajiban Pihak Kedua</h2>
   <ol>
-    <li>Memberikan layanan les privat sesuai jadwal yang telah disepakati dengan murid.</li>
-    <li>Menjaga profesionalisme, kesopanan, dan etika dalam setiap interaksi dengan murid.</li>
+    <li>Memberikan layanan les privat sesuai jadwal yang telah disepakati dengan Member.</li>
+    <li>Menjaga profesionalisme, kesopanan, dan etika dalam setiap interaksi dengan Member.</li>
     <li>Melaporkan setiap sesi yang telah dilaksanakan melalui platform Tempatles.id.</li>
     <li>Tidak melakukan transaksi di luar platform selama masa perjanjian berlaku.</li>
-    <li>Menjaga kerahasiaan data murid dan tidak menyebarluaskan informasi pribadi murid.</li>
+    <li>Menjaga kerahasiaan data Member dan tidak menyebarluaskan informasi pribadi Member.</li>
     <li>Memberitahukan perubahan jadwal atau ketidakhadiran minimal 24 jam sebelumnya.</li>
   </ol>
 
   <h2 class="section">Pasal 4 — Kewajiban Pihak Pertama</h2>
   <ol>
-    <li>Menyediakan platform yang dapat diakses oleh PIHAK KEDUA untuk mengelola jadwal dan murid.</li>
-    <li>Mencarikan dan menghubungkan murid yang sesuai dengan profil PIHAK KEDUA.</li>
+    <li>Menyediakan platform yang dapat diakses oleh PIHAK KEDUA untuk mengelola jadwal dan Member.</li>
+    <li>Mencarikan dan menghubungkan Member yang sesuai dengan profil PIHAK KEDUA.</li>
     <li>Memberikan laporan pendapatan secara transparan kepada PIHAK KEDUA.</li>
     <li>Mentransfer honor PIHAK KEDUA sesuai kesepakatan pembayaran yang berlaku.</li>
   </ol>

@@ -99,7 +99,7 @@
                     <thead class="bg-gray-50">
                         <tr class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <th class="px-6 py-3">Tanggal Sesi</th>
-                            <th class="px-6 py-3">Murid</th>
+                            <th class="px-6 py-3">Member</th>
                             <th class="px-6 py-3">Mata Pelajaran</th>
                             <th class="px-6 py-3 text-right">Tarif Bruto</th>
                             <th class="px-6 py-3 text-right">Potongan (10%)</th>

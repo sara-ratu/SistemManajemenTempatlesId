@@ -21,7 +21,7 @@ class BookingController extends Controller
 
         $subjects = $tutor->tutorProfile->subjects()->get();
 
-        return view('murid.booking', compact('tutor', 'subjects'));
+        return view('Member.booking', compact('tutor', 'subjects'));
     }
 
     /**
@@ -56,14 +56,14 @@ class BookingController extends Controller
             ->exists();
 
         if ($sudahAda) {
-            return back()->withInput()->with('error', 'Jadwal tersebut sudah dipesan oleh murid lain.');
+            return back()->withInput()->with('error', 'Jadwal tersebut sudah dipesan oleh Member lain.');
         }
 
         try {
             DB::beginTransaction();
 
             $booking = Booking::create([
-                'murid_id'   => auth()->id(),
+                'Member_id'   => auth()->id(),
                 'tutor_id'   => $tutor->id,
                 'subject_id' => $request->subject_id,
                 'tanggal'    => $request->tanggal,
@@ -76,7 +76,7 @@ class BookingController extends Controller
 
             DB::commit();
 
-            return redirect()->route('murid.riwayat')
+            return redirect()->route('Member.riwayat')
                 ->with('success', 'Booking berhasil dibuat! Menunggu konfirmasi dari tutor.');
 
         } catch (\Exception $e) {
@@ -86,15 +86,15 @@ class BookingController extends Controller
     }
 
     /**
-     * Riwayat booking murid
+     * Riwayat booking Member
      */
     public function riwayat()
     {
-        $bookings = Booking::where('murid_id', auth()->id())
+        $bookings = Booking::where('Member_id', auth()->id())
             ->with(['tutor', 'subject'])
             ->latest()
             ->paginate(10);
 
-        return view('murid.riwayat', compact('bookings'));
+        return view('Member.riwayat', compact('bookings'));
     }
 }

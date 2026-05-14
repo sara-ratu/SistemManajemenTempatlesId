@@ -13,7 +13,7 @@ class TutorProfile extends Model
         'user_id', 'bio', 'harga_min', 'harga_max',
         'pendidikan', 'universitas', 'dokumen_ktp',
         'dokumen_ijazah', 'rating_rata', 'total_review',
-        'total_murid', 'status_verifikasi', 'is_active',
+        'total_Member', 'status_verifikasi', 'is_active',
     ];
 
     protected $casts = [

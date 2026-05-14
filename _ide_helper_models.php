@@ -14,7 +14,7 @@
 namespace App\Models{
 /**
  * @property int $id
- * @property int $murid_id
+ * @property int $Member_id
  * @property int $tutor_id
  * @property int $subject_id
  * @property \Illuminate\Support\Carbon $tanggal
@@ -25,7 +25,7 @@ namespace App\Models{
  * @property string|null $catatan
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User $murid
+ * @property-read \App\Models\User $Member
  * @property-read \App\Models\Review|null $review
  * @property-read \App\Models\Subject $subject
  * @property-read \App\Models\User $tutor
@@ -38,7 +38,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereJamMulai($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereJamSelesai($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereMuridId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereMemberId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereTanggal($value)
@@ -51,7 +51,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property int $murid_id
+ * @property int $Member_id
  * @property int $tutor_id
  * @property numeric $skor_lokasi
  * @property numeric $skor_mapel
@@ -62,7 +62,7 @@ namespace App\Models{
  * @property array<array-key, mixed>|null $kriteria_input
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User $murid
+ * @property-read \App\Models\User $Member
  * @property-read \App\Models\User $tutor
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchingLog newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchingLog newQuery()
@@ -70,7 +70,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchingLog whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchingLog whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchingLog whereKriteriaInput($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchingLog whereMuridId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchingLog whereMemberId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchingLog whereSkorHarga($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchingLog whereSkorJadwal($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchingLog whereSkorLokasi($value)
@@ -87,14 +87,14 @@ namespace App\Models{
 /**
  * @property int $id
  * @property int $booking_id
- * @property int $murid_id
+ * @property int $Member_id
  * @property int $tutor_id
  * @property int $rating
  * @property string|null $komentar
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Booking $booking
- * @property-read \App\Models\User $murid
+ * @property-read \App\Models\User $Member
  * @property-read \App\Models\User $tutor
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Review newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Review newQuery()
@@ -103,7 +103,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Review whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Review whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Review whereKomentar($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Review whereMuridId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Review whereMemberId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Review whereRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Review whereTutorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Review whereUpdatedAt($value)
@@ -177,7 +177,7 @@ namespace App\Models{
  * @property string|null $dokumen_ijazah
  * @property numeric $rating_rata
  * @property int $total_review
- * @property int $total_murid
+ * @property int $total_Member
  * @property string $status_verifikasi
  * @property bool $is_active
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -201,7 +201,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TutorProfile wherePendidikan($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TutorProfile whereRatingRata($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TutorProfile whereStatusVerifikasi($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TutorProfile whereTotalMurid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TutorProfile whereTotalMember($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TutorProfile whereTotalReview($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TutorProfile whereUniversitas($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TutorProfile whereUpdatedAt($value)
@@ -246,16 +246,16 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookingsAsMurid
- * @property-read int|null $bookings_as_murid_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookingsAsMember
+ * @property-read int|null $bookings_as_Member_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookingsAsTutor
  * @property-read int|null $bookings_as_tutor_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MatchingLog> $matchingLogs
  * @property-read int|null $matching_logs_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviewsAsMurid
- * @property-read int|null $reviews_as_murid_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviewsAsMember
+ * @property-read int|null $reviews_as_Member_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviewsAsTutor
  * @property-read int|null $reviews_as_tutor_count
  * @property-read \App\Models\TutorProfile|null $tutorProfile

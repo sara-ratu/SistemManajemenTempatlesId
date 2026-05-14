@@ -26,7 +26,7 @@ class ScheduleController extends Controller
         // Booking masuk yang perlu dikonfirmasi
         $bookingPending = Booking::where('tutor_id', Auth::id())
             ->where('status', 'pending')
-            ->with(['murid', 'subject'])
+            ->with(['Member', 'subject'])
             ->latest()
             ->get();
 
@@ -105,7 +105,7 @@ class ScheduleController extends Controller
             'confirmed_by' => Auth::id(),
         ]);
 
-        return back()->with('success', 'Booking dikonfirmasi. Murid akan diberitahu.');
+        return back()->with('success', 'Booking dikonfirmasi. Member akan diberitahu.');
     }
 
     // ──────────────────────────────────────────────

@@ -300,7 +300,7 @@
                     <div class="hero-eyebrow">✦ Cari Tutor Terbaik</div>
                     <div class="hero-title">Belajar Lebih Cerdas</div>
                     <div class="hero-sub">{{ $totalTutor ?? '50' }}+ tutor terverifikasi siap membantumu</div>
-                    <form method="GET" action="{{ route('murid.cari-tutor') }}" class="search-form">
+                    <form method="GET" action="{{ route('Member.cari-tutor') }}" class="search-form">
                         <div class="search-field">
                             <span class="sf-icon">🔎</span>
                             <input type="text" name="q" class="sf-input"
@@ -323,7 +323,7 @@
                 <span class="filter-label">Filter:</span>
                 @php $mapels = ['Semua','Matematika','Fisika','Kimia','Biologi','Bahasa Inggris','Bahasa Indonesia','Pemrograman']; @endphp
                 @foreach($mapels as $mapel)
-                <a href="{{ route('murid.cari-tutor', array_merge(request()->query(), ['mapel' => $mapel === 'Semua' ? '' : $mapel])) }}"
+                <a href="{{ route('Member.cari-tutor', array_merge(request()->query(), ['mapel' => $mapel === 'Semua' ? '' : $mapel])) }}"
                    class="filter-chip {{ request('mapel','') === ($mapel === 'Semua' ? '' : $mapel) ? 'active' : '' }}">
                     {{ $mapel }}
                 </a>
@@ -376,7 +376,7 @@
                                 <div class="tc-price">Rp{{ number_format($tutor->harga_per_jam ?? 0, 0, ',', '.') }}</div>
                                 <div class="tc-price-sub">per jam</div>
                             </div>
-                            <a href="{{ route('murid.detail-tutor', $tutor->id) }}" class="book-btn">
+                            <a href="{{ route('Member.detail-tutor', $tutor->id) }}" class="book-btn">
                                 Lihat Profil →
                             </a>
                         </div>
@@ -409,7 +409,7 @@
                     <div class="es-icon">🔍</div>
                     <div class="es-title">Tutor tidak ditemukan</div>
                     <div class="es-text">Coba ubah kata kunci atau hapus filter yang digunakan</div>
-                    <a href="{{ route('murid.cari-tutor') }}" class="reset-btn">Reset Pencarian</a>
+                    <a href="{{ route('Member.cari-tutor') }}" class="reset-btn">Reset Pencarian</a>
                 </div>
             @endif
 

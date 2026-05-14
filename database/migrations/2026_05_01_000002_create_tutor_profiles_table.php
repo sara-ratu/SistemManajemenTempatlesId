@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('dokumen_ijazah')->nullable();
             $table->decimal('rating_rata', 3, 2)->default(0);
             $table->integer('total_review')->default(0);
-            $table->integer('total_murid')->default(0);
+            $table->integer('total_Member')->default(0);
             $table->enum('status_verifikasi', ['pending', 'verified', 'rejected'])->default('pending');
             $table->boolean('is_active')->default(true);
             $table->timestamps();

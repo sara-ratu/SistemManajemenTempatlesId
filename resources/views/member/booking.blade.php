@@ -270,7 +270,7 @@
 
             {{-- ── Header ── --}}
             <div class="anim-1">
-                <a href="{{ route('murid.dashboard') }}" class="back-link">
+                <a href="{{ route('Member.dashboard') }}" class="back-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                     Dashboard
                 </a>
@@ -339,7 +339,7 @@
                         <div class="empty-box">
                             <div class="empty-emoji">📭</div>
                             <div class="empty-text">Belum ada booking sama sekali.<br>Yuk mulai belajar bersama tutor!</div>
-                            <a href="{{ route('murid.cari-tutor') }}" class="empty-btn">
+                            <a href="{{ route('Member.cari-tutor') }}" class="empty-btn">
                                 Cari Tutor
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                             </a>

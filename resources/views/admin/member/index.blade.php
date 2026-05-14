@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Daftar Member / Murid</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Daftar Member / Member</h2>
     </x-slot>
 
     <div class="px-6 py-8">
@@ -33,7 +33,7 @@
                         <td class="px-6 py-4 text-gray-600">{{ $member->email }}</td>
                         <td class="px-6 py-4 text-gray-600">{{ $member->no_hp ?? '-' }}</td>
                         <td class="px-6 py-4 text-center font-semibold text-blue-600">
-                            {{ $member->bookings_as_murid_count }}
+                            {{ $member->bookings_as_Member_count }}
                         </td>
                         <td class="px-6 py-4 text-center">
                             @if($member->is_verified)
